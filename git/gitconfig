@@ -2,11 +2,11 @@
 # [includeIf "gitdir:~/"]
 #   	path = .gitconfig-personal
 [includeIf "gitdir:~/code/personal/"]
-  	path = .gitconfig-personal
+  	path = ~/.gitconfig-personal
 [includeIf "gitdir:~/SynologyDrive/Projects/"]
-  	path = .gitconfig-personal
+  	path = ~/.gitconfig-personal
 [includeIf "gitdir:~/code/professional/"]
-	path = .gitconfig-professional
+	path = ~/.gitconfig-professional
 
 [core]
 # global gitignore file
