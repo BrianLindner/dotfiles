@@ -3,7 +3,7 @@
 SHELL := bash
 
 .PHONY: all
-all: help
+all: install
 
 .PHONY: install
 install: bin usr bash zsh zsh-addons config fonts git gpg pictures vscode ## Installs shells, addons, bin fonts git gpg pictures
@@ -19,7 +19,7 @@ bash:
 		ln -sfn $$file "$(HOME)/$$f"; \
 	done;
 
-	ln -snf "$(CURDIR)/.bash_profile" "$(HOME)/.profile";
+	ln -snf "$(CURDIR)/bash/.bash_profile" "$(HOME)/.profile";
 
 .PHONY: bash-remove
 bash-remove:
@@ -70,7 +70,7 @@ config: ## Installs the base config dotfiles.
 	fi;
 
 .PHONY: config-remove
-config-remove: 
+config-remove:
 	mkdir -p "$(HOME)/.config";
 	mkdir -p "$(HOME)/.local/share";
 
