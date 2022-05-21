@@ -58,7 +58,7 @@ config: ## Installs the base config dotfiles.
 	mkdir -p "$(HOME)/.local/share";
 
 #	add aliases for dotfiles
-	for file in $(shell find "$(CURDIR)" -type f -name ".*" -maxdepth 1 -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".pytest_cache" -not -name ".DS_Store"); do \
+	for file in $(shell find "$(CURDIR)" -maxdepth 1 -type f -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".pytest_cache" -not -name ".DS_Store"); do \
 		f=$$(basename $$file); \
 		ln -sfn $$file "$(HOME)/$$f"; \
 	done;
@@ -75,7 +75,7 @@ config-remove:
 	mkdir -p "$(HOME)/.local/share";
 
 #	add aliases for dotfiles
-	for file in $(shell find "$(CURDIR)" -type f -name ".*" -maxdepth 1 -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".pytest_cache" -not -name ".DS_Store"); do \
+	for file in $(shell find "$(CURDIR)" -maxdepth 1 -type f -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".pytest_cache" -not -name ".DS_Store"); do \
 		f=$$(basename $$file); \
 		if [ -f "$(HOME)/$$f" ]; then \
 			rm "$(HOME)/$$f"; \
