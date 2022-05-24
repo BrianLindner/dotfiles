@@ -1,22 +1,57 @@
 {
-  // My Customizations dddd
-  "telemetry.enableTelemetry": false, // custom
-  "telemetry.enableCrashReporter": false, // custom
+  // ################################
+  // My Customizations
+  "telemetry.enableTelemetry": false, // custom - Depricated telemetry flag
+  "telemetry.enableCrashReporter": false, // custom - Depricated crash reporting flag
+  "telemetry.telemetryLevel": "off", // new telemetry setting
   "editor.fontLigatures": true, // custom
   "editor.formatOnSaveMode": "file", // custom
   "editor.formatOnSave": true, // custom
-  "editor.codeActionsOnSave": {
+  "editor.maxTokenizationLineLength": 2000,
+  "editor.fontFamily": "'Cascadia Code', 'Fira Code', Menlo, Monaco, 'Courier New', monospace", // custom
+  "editor.codeActionsOnSave": { // custom
     "source.organizeImports": true // custom
+  },
+  "editor.rulers": [ // custom // Columns at which to show vertical rulers
+    {
+      "column": 80,
+      "color": "#3a3a3a"
+    },
+    {
+      "column": 90,
+      "color": "#b8b8b8"
+    },
+    {
+      "column": 110,
+      "color": "#ff0000"
+    }
+  ],
+  "editor.tabSize": 2, // custom // The number of spaces a tab is equal to. This setting is overriden based on the file contents when `editor.detectIndentation` is on.
+  "editor.detectIndentation": false, // custom When opening a file, `editor.tabSize` and `editor.insertSpaces` will be detected based on the file contents.
+  "editor.insertSpaces": true,
+  "emmet.triggerExpansionOnTab": true, // custom
+  "files.autoSave": "off", // custom
+  "files.autoGuessEncoding": true,
+  "files.trimTrailingWhitespace": true,
+  "files.trimFinalNewlines": true,
+  "files.insertFinalNewline": true,
+  "yaml.format.printWidth": 110, // custom
+  "window.title": "${remoteName}${separator}${activeEditorMedium}${separator}${rootPath}", // custom
+  "window.zoomLevel": 0, // custom
+  "workbench.iconTheme": "vscode-icons", // custom
+  "workbench.colorTheme": "Cobalt2", // custom
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook"
   },
   "python.analysis.typeCheckingMode": "strict", // custom
   "python.formatting.provider": "black", // custom
-  "python.linting.enabled": true,
-  "python.linting.pylintEnabled": true,
-  "python.testing.pytestEnabled": true,
-  "python.testing.unittestEnabled": true,
-  "window.title": "${remoteName}${separator}${activeEditorMedium}${separator}${rootPath}", // custom
-  "window.zoomLevel": 0, // cust: might have to change per machine
-  "workbench.colorTheme": "Cobalt2", // custom
+  "python.languageServer": "Pylance",
+  "python.linting.enabled": true, // custom
+  "python.linting.pylintEnabled": true, // custom
+  "python.testing.pytestEnabled": true, // custom
+  "python.testing.unittestEnabled": true, // custom
+  "terminal.integrated.defaultProfile.osx": "zsh", // custom
+  "redhat.telemetry.enabled": false, // custom
   // #######################
   // Extension settings
   "macros": {
@@ -27,11 +62,8 @@
       "cursorDown"
     ]
   },
-  "emmet.triggerExpansionOnTab": true,
   "git.path": "/Library/Developer/CommandLineTools",
   "python.pythonPath": "/usr/local/bin/python3",
-  "editor.maxTokenizationLineLength": 2000,
-  "editor.fontFamily": "'Cascadia Code', 'Fira Code', Menlo, Monaco, 'Courier New', monospace",
   "better-comments.highlightPlainText": true,
   "better-comments.tags": [
     {
@@ -80,29 +112,7 @@
       "italic": false
     }
   ],
-  // Columns at which to show vertical rulers
-  "editor.rulers": [
-    {
-      "column": 80,
-      "color": "#424142"
-    },
-    {
-      "column": 90
-    },
-    {
-      "column": 110,
-      "color": "#ff0000"
-    }
-  ],
-  "files.trimTrailingWhitespace": true,
-  "files.trimFinalNewlines": true,
-  "files.insertFinalNewline": true,
-  "python.languageServer": "Pylance",
-  "workbench.editorAssociations": {
-    "*.ipynb": "jupyter-notebook"
-  },
   "explorer.confirmDragAndDrop": false,
-  "redhat.telemetry.enabled": false,
   "vscode-yaml-sort.emptyLinesUntilLevel": 1,
   "vscode-yaml-sort.noCompatMode": true,
   "vscode-yaml-sort.customSortKeywords_1": [
@@ -274,10 +284,36 @@
   "markdown.styles": [
     "https://use.fontawesome.com/releases/v5.7.1/css/all.css"
   ],
-  // The number of spaces a tab is equal to. This setting is overriden based on the file contents when `editor.detectIndentation` is on.
-  "editor.tabSize": 2,
-  // When opening a file, `editor.tabSize` and `editor.insertSpaces` will be detected based on the file contents.
-  "editor.detectIndentation": false,
-  "yaml.format.printWidth": 110,
-  "workbench.iconTheme": "vscode-icons"
+  "terminal.integrated.profiles.osx": {
+    "bash": {
+      "path": "bash",
+      "args": [
+        "-l"
+      ],
+      "icon": "terminal-bash"
+    },
+    "zsh": {
+      "path": "zsh",
+      "args": [
+        "-l"
+      ]
+    },
+    "fish": {
+      "path": "fish",
+      "args": [
+        "-l"
+      ]
+    },
+    "tmux": {
+      "path": "tmux",
+      "icon": "terminal-tmux"
+    },
+    "pwsh": {
+      "path": "pwsh",
+      "icon": "terminal-powershell"
+    },
+    "csh": {
+      "path": "/bin/csh"
+    }
+  }
 }
