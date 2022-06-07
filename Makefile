@@ -279,10 +279,10 @@ zsh-remove:
 
 .PHONY: zsh-addons
 zsh-addons:
-	# echo ${ZSH}
-	# echo $(ZSH_CUSTOM)/dir
-	# echo ${HOME}/.oh-my-zsh/custom/dir
-	# echo $((ZSH_CUSTOM):-$(HOME)/.oh-my-zsh/custom)/dir
+#	# echo ${ZSH}
+#	# echo $(ZSH_CUSTOM)/dir
+#	# echo ${HOME}/.oh-my-zsh/custom/dir
+#	# echo $((ZSH_CUSTOM):-$(HOME)/.oh-my-zsh/custom)/dir
 #	powerlevel10k power theme
 #	git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k || (cd ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k && git pull)
 #	Setup autozuggestions
