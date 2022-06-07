@@ -11,7 +11,10 @@ export TERMINAL="urxvt";
 # Larger bash history (allow 32³ entries; default is 500)
 export HISTSIZE=50000000;
 export HISTFILESIZE=$HISTSIZE;
-export HISTCONTROL=ignoredups;
+# dont put duplicate lines, or lines starting with a space into history
+export HISTCONTROL=ignoreboth; # ignoredups;
+# format the history output
+export HISTTIMEFORMAT="%Y-%m-%d %T "
 # Make some commands not show up in history
 export HISTIGNORE=" *:ls:cd:cd -:pwd:exit:date:* --help:* -h:pony:pony add *:pony update *:pony save *:pony ls:pony ls *";
 

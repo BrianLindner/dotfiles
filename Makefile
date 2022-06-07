@@ -9,8 +9,28 @@ all: install
 install: bin usr bash zsh zsh-addons config fonts git gpg pictures vscode ## Installs shells, addons, bin fonts git gpg pictures
 
 .PHONY: remove
-remove: bin-remove usr-remove bash-remove zsh-remove zsh-addons-remove config-remove \
-	fonts-remove git-remove gpg-remove pictures-remove vscode-remove ## Remove the dotfile configs; **WARNING: files will be deleted**
+remove: remove-shell-files remove-app-files remove-config-files remove-util-files ## Remove the dotfile configs; **WARNING: files will be deleted**
+
+.PHONY: remove-shell-files
+remove-shell-files: bash-remove zsh-remove zsh-addons-remove
+
+.PHONY: remove-app-files
+remove-app-files: bin-remove usr-remove
+
+.PHONY: remove-config-files
+remove-config-files: config-remove git-remove gpg-remove vscode-remove
+
+.PHONY: remove-util-files
+remove-util-files: fonts-remove  pictures-remove
+
+.PHONY: cleanup
+cleanup: ## Remove legacy files not used by current configuration
+	if [ -f "$(HOME)/.alias" ]; then \
+		rm "$(HOME)/.alias"; \
+	fi;
+	if [ -f "$(HOME)/.exports" ]; then \
+		rm "$(HOME)/.exports"; \
+	fi;
 
 .PHONY: bash
 bash:
@@ -300,3 +320,6 @@ shellcheck: ## Runs the shellcheck tests on the scripts.
 .PHONY: help
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+t:
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST)

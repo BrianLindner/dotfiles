@@ -48,6 +48,10 @@
   "python.languageServer": "Pylance",
   "python.linting.enabled": true, // custom
   "python.linting.pylintEnabled": true, // custom
+  "python.linting.pylintArgs": [
+    // "--const-naming-style=snake_case",
+    "--disable=C0103" // disable snake_case warning
+  ],
   "python.testing.pytestEnabled": true, // custom
   "python.testing.unittestEnabled": true, // custom
   "terminal.integrated.defaultProfile.osx": "zsh", // custom
@@ -315,5 +319,10 @@
     "csh": {
       "path": "/bin/csh"
     }
-  }
+  },
+  "editor.multiCursorModifier": "ctrlCmd",
+  "python.formatting.blackArgs": [
+    "--line-length",
+    "100"
+  ]
 }
