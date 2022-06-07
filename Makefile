@@ -285,12 +285,11 @@ zsh-addons:
 #	# echo $((ZSH_CUSTOM):-$(HOME)/.oh-my-zsh/custom)/dir
 #	powerlevel10k power theme
 #	git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k || (cd ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k && git pull)
-#	Setup autozuggestions
+#	Setup autosuggestions
 #	git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ## || (cd ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && git pull )
 
 .PHONY: zsh-addons-remove
 zsh-addons-remove:
-
 #	xrdb -merge $(HOME)/.Xdefaults || true
 #	xrdb -merge $(HOME)/.Xresources || true
 
