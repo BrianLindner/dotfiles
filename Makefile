@@ -6,7 +6,7 @@ SHELL := bash
 all: install
 
 .PHONY: install
-install: bin usr bash zsh zsh-addons config fonts git gpg pictures vscode ## Installs shells, addons, bin fonts git gpg pictures
+install: cleanup bin usr bash zsh zsh-addons config fonts git gpg pictures vscode ## Installs shells, addons, bin fonts git gpg pictures
 
 .PHONY: remove
 remove: remove-shell-files remove-app-files remove-config-files remove-util-files ## Remove the dotfile configs; **WARNING: files will be deleted**
