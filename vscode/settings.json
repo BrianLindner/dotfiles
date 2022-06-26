@@ -8,7 +8,8 @@
   "editor.formatOnSaveMode": "file", // custom
   "editor.formatOnSave": true, // custom
   "editor.maxTokenizationLineLength": 2000,
-  "editor.fontFamily": "'Cascadia Code', 'Fira Code', Menlo, Monaco, 'Courier New', monospace", // custom
+  "editor.multiCursorModifier": "ctrlCmd",
+  "editor.fontFamily": "'Cascadia Code', 'Fira Code', Menlo, Monaco, 'Courier New', monospace, Powerline", // custom
   "editor.codeActionsOnSave": { // custom
     "source.organizeImports": true // custom
   },
@@ -36,6 +37,8 @@
   "files.trimFinalNewlines": true,
   "files.insertFinalNewline": true,
   "yaml.format.printWidth": 110, // custom
+  "terminal.integrated.defaultProfile.osx": "zsh", // custom
+  "terminal.integrated.fontFamily": "MesloLGS NF, monospace",
   "window.title": "${remoteName}${separator}${activeEditorMedium}${separator}${rootPath}", // custom
   "window.zoomLevel": 0, // custom
   "workbench.iconTheme": "vscode-icons", // custom
@@ -45,16 +48,19 @@
   },
   "python.analysis.typeCheckingMode": "strict", // custom
   "python.formatting.provider": "black", // custom
+  "python.formatting.blackArgs": [
+    "--line-length",
+    "100"
+  ],
   "python.languageServer": "Pylance",
   "python.linting.enabled": true, // custom
   "python.linting.pylintEnabled": true, // custom
   "python.linting.pylintArgs": [
     // "--const-naming-style=snake_case",
-    "--disable=C0103" // disable snake_case warning
+    // "--disable=C0103" // disable snake_case warning
   ],
   "python.testing.pytestEnabled": true, // custom
   "python.testing.unittestEnabled": true, // custom
-  "terminal.integrated.defaultProfile.osx": "zsh", // custom
   "redhat.telemetry.enabled": false, // custom
   // #######################
   // Extension settings
@@ -320,9 +326,27 @@
       "path": "/bin/csh"
     }
   },
-  "editor.multiCursorModifier": "ctrlCmd",
-  "python.formatting.blackArgs": [
-    "--line-length",
-    "100"
+  // For which languages indent-rainbow should be deactivated (if empty it means none).
+  "indentRainbow.excludedLanguages": [
+    "plaintext"
+  ],
+  // The indent color if the number of spaces is not a multiple of "tabSize".
+  "indentRainbow.errorColor": "rgba(128,32,32,0.6)",
+  // Using the light mode
+  // "indentRainbow.indicatorStyle": "classic",
+  // we use a simple 1 pixel wide line
+  // "indentRainbow.lightIndicatorStyleLineWidth": 1,
+  // the same colors as above but more visible
+  // "indentRainbow.colors": [
+  //   "rgba(255,255,64,0.3)",
+  //   "rgba(127,255,127,0.3)",
+  //   "rgba(255,127,255,0.3)",
+  //   "rgba(79,236,236,0.3)"
+  // ]
+  "indentRainbow.colors": [
+    "rgba(255,255,64,0.07)",
+    "rgba(127,255,127,0.07)",
+    "rgba(255,127,255,0.07)",
+    "rgba(79,236,236,0.07)"
   ]
 }
