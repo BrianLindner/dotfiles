@@ -6,7 +6,7 @@ SHELL := bash
 all: install
 
 .PHONY: install
-install: cleanup bin usr bash zsh zsh-addons config fonts git gpg pictures vscode ## Installs shells, addons, bin fonts git gpg pictures
+install: cleanup bin usr bash zsh zsh-addons config fonts docker git gpg pictures vscode ## Installs shells, addons, bin fonts git gpg pictures
 
 .PHONY: remove
 remove: remove-shell-files remove-app-files remove-config-files remove-util-files ## Remove the dotfile configs; **WARNING: files will be deleted**
@@ -18,7 +18,7 @@ remove-shell-files: bash-remove zsh-remove zsh-addons-remove
 remove-app-files: bin-remove usr-remove
 
 .PHONY: remove-config-files
-remove-config-files: config-remove git-remove gpg-remove vscode-remove
+remove-config-files: config-remove docker-remove git-remove gpg-remove vscode-remove
 
 .PHONY: remove-util-files
 remove-util-files: fonts-remove  pictures-remove
@@ -109,6 +109,16 @@ config-remove:
 	# if [ -f /usr/local/bin/pinentry ]; then \
 	# 	sudo ln -snf /usr/bin/pinentry /usr/local/bin/pinentry; \
 	# fi;
+
+.PHONY: docker
+docker:
+	ln -snf "$(CURDIR)/docker/.docker_alias" "$(HOME)/.docker_alias";
+
+.PHONY: docker-remove
+docker-remove:
+	if [ -f "$(HOME)/.docker_alias" ]; then \
+		rm "$(HOME)/.docker_alias"; \
+	fi;
 
 .PHONY: etc
 etc: ## Installs the etc directory files.

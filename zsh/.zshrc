@@ -108,7 +108,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # We do this before the following so that all the paths work.
-for file in ~/.{zsh_alias,path}; do
+for file in ~/.{zsh_alias,docker_alias,path}; do
 	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
 		# shellcheck source=/dev/null
 		source "$file"
