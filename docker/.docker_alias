@@ -14,8 +14,6 @@ alias docker-compose="docker compose"
 alias dks="docker stats --all --no-trunc"
 alias dkr="docker compose run --rm web"
 
-# alias dke="docker exec -it"
-
 alias dkcnthosts="docker ps --filter status=running --quiet | wc -l"
 alias dkcntnets="docker network ls --filter driver=bridge --quiet | wc -l"
 
@@ -57,7 +55,7 @@ dktop() {
   docker stats --format "table {{.Container}}\t{{.Name}}\t{{.CPUPerc}}  {{.MemPerc}}\t{{.NetIO}}\t{{.BlockIO}}"
 }
 
-alias dknets() {
+dknets() {
   docker network inspect --format='{{.Name}} {{.IPAM.Config}}' $(docker network ls --filter driver=bridge --quiet | awk '{print $1}')
 }
 
