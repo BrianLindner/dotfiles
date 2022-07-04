@@ -60,9 +60,14 @@ dknets() {
 }
 
 dktest-nets() {
+  echo "Creating Docker Networks..."
   for i in {1..50}; do docker network create net-$i; done
+  echo ""
+  echo "Docker Network Information..."
   for i in $(docker network ls -q); do
     docker network inspect --format='{{.Name}} {{.IPAM.Config}}' $i;
   done
+  echo ""
+  echo "Removing Docker Networks..."
   for i in {1..50}; do docker network rm net-$i; done
 }
