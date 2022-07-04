@@ -16,8 +16,9 @@ alias dkr="docker compose run --rm web"
 
 # alias dke="docker exec -it"
 
-alias dkhosts="docker ps --filter status=running --quiet | wc -l"
-alias dknets="docker network ls --filter driver=bridge --quiet | wc -l"
+alias dkcnthosts="docker ps --filter status=running --quiet | wc -l"
+alias dkcntnet="docker network ls --filter driver=bridge --quiet | wc -l"
+alias dknets="docker network inspect --format='{{.Name}} {{.IPAM.Config}}' $(docker network ls --filter driver=bridge --quiet | awk '{print $1}')"
 
 alias dkflush="docker rm `docker ps --no-trunc -aq`"
 alias dkflushi="docker rmi $(docker images --filter "dangling=true" -q --no-trunc)"
@@ -55,4 +56,12 @@ dkstats() {
 
 dktop() {
   docker stats --format "table {{.Container}}\t{{.Name}}\t{{.CPUPerc}}  {{.MemPerc}}\t{{.NetIO}}\t{{.BlockIO}}"
+}
+
+dktest-networks() {
+  for i in {1..50}; do docker network create net-$i; done
+  for i in $(docker network ls -q); do
+    docker network inspect --format='{{.Name}} {{.IPAM.Config}}' $i;
+  done
+  for i in {1..50}; do docker network rm net-$i; done
 }
