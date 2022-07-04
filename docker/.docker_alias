@@ -16,8 +16,8 @@ alias dkr="docker compose run --rm web"
 
 # alias dke="docker exec -it"
 
-alias dkrun="docker ps --filter status=running --quiet | wc -l"
-alias dknet="docker network ls --filter driver=bridge --quiet | wc -l"
+alias dkhosts="docker ps --filter status=running --quiet | wc -l"
+alias dknets="docker network ls --filter driver=bridge --quiet | wc -l"
 
 alias dkflush="docker rm `docker ps --no-trunc -aq`"
 alias dkflushi="docker rmi $(docker images --filter "dangling=true" -q --no-trunc)"
