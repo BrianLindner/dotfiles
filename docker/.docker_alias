@@ -26,7 +26,6 @@ alias dkt='docker stats --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t
 alias dkps="docker ps --format '{{.ID}} ~ {{.Names}} ~ {{.Status}} ~ {{.Image}}'"
 
 
-
 dke() {
   docker exec -it $1 /bin/sh
 }
