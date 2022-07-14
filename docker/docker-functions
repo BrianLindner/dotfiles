@@ -1,29 +1,5 @@
 
 
-# Docker
-alias dk="docker"
-alias dkl="docker logs"
-alias dklf="docker logs -f"
-alias dki="docker images"
-alias dks="docker service"
-alias dkrm="docker rm"
-# alias dm= "docker-machine"
-# alias dmx="docker-machine ssh"
-
-alias docker-compose="docker compose"
-alias dks="docker stats --all --no-trunc"
-alias dkr="docker compose run --rm web"
-
-alias dkcnthosts="docker ps --filter status=running --quiet | wc -l"
-alias dkcntnets="docker network ls --filter driver=bridge --quiet | wc -l"
-
-alias dkflush="docker rm `docker ps --no-trunc -aq`"
-alias dkflushi="docker rmi $(docker images --filter "dangling=true" -q --no-trunc)"
-
-alias dkt='docker stats --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.NetIO}}"'
-alias dkps="docker ps --format '{{.ID}} ~ {{.Names}} ~ {{.Status}} ~ {{.Image}}'"
-
-
 dke() {
   docker exec -it $1 /bin/sh
 }

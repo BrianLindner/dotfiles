@@ -25,11 +25,26 @@ remove-util-files: fonts-remove  pictures-remove
 
 .PHONY: cleanup
 cleanup: ## Remove legacy files not used by current configuration
-	if [ -f "$(HOME)/.alias" ]; then \
+	if [ -L "$(HOME)/.alias" ]; then \
 		rm "$(HOME)/.alias"; \
 	fi;
-	if [ -f "$(HOME)/.exports" ]; then \
+	if [ -L "$(HOME)/.exports" ]; then \
 		rm "$(HOME)/.exports"; \
+	fi;
+	if [ -L "$(HOME)/.bash_exports" ]; then \
+		rm "$(HOME)/.bash_exports"; \
+	fi;
+	if [ -L "$(HOME)/.bash_alias" ]; then \
+		rm "$(HOME)/.bash_alias"; \
+	fi;
+# if [ -L "$(HOME)/.bash_profile" ]; then \
+# 	rm "$(HOME)/.bash_profile"; \
+# fi;
+	if [ -L "$(HOME)/.zsh_alias" ]; then \
+		rm "$(HOME)/.zsh_alias"; \
+	fi;
+	if [ -L "$(HOME)/.docker_alias" ]; then \
+		rm "$(HOME)/.docker_alias"; \
 	fi;
 
 .PHONY: bash
@@ -39,7 +54,7 @@ bash:
 		ln -sfn $$file "$(HOME)/$$f"; \
 	done;
 
-	ln -snf "$(CURDIR)/bash/.bash_profile" "$(HOME)/.profile";
+	ln -snf "$(CURDIR)/bash/.bash-profile" "$(HOME)/.profile";
 
 .PHONY: bash-remove
 bash-remove:
@@ -112,12 +127,12 @@ config-remove:
 
 .PHONY: docker
 docker:
-	ln -snf "$(CURDIR)/docker/.docker_alias" "$(HOME)/.docker_alias";
+	ln -snf "$(CURDIR)/docker/.docker-alias" "$(HOME)/.docker-alias";
 
 .PHONY: docker-remove
 docker-remove:
-	if [ -f "$(HOME)/.docker_alias" ]; then \
-		rm "$(HOME)/.docker_alias"; \
+	if [ -f "$(HOME)/.docker-alias" ]; then \
+		rm "$(HOME)/.docker-alias"; \
 	fi;
 
 .PHONY: etc

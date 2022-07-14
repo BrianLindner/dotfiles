@@ -72,12 +72,20 @@ ZSH_THEME="powerlevel10k/powerlevel10k" # "robbyrussell"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+bgnotify_threshold=4
+
+function bgnotify_formatted {
+  ## $1=exit_status, $2=command, $3=elapsed_time
+  [ $1 -eq 0 ] && title="Holy Smokes Batman!" || title="Holy Graf Zeppelin!"
+  bgnotify "$title -- after $3 s" "$2";
+}
+
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git z gh zsh-autosuggestions)
+plugins=(git z gh zsh-autosuggestions jump bgnotify colorize gitignore)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -108,7 +116,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # We do this before the following so that all the paths work.
-for file in ~/.{zsh_alias,docker_alias,path}; do
+for file in ~/.{zsh-alias,docker-alias,docker-functions,path}; do
 	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
 		# shellcheck source=/dev/null
 		source "$file"
