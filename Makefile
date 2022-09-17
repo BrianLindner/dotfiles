@@ -6,7 +6,19 @@ SHELL := bash
 all: install
 
 .PHONY: install
-install: cleanup bin usr bash zsh zsh-addons config fonts docker git gpg pictures vscode ## Installs shells, addons, bin fonts git gpg pictures
+install: cleanup install-app-files install-shell-files install-config-files install-util-files ## Installs shells, addons, bin fonts git gpg pictures
+
+.PHONY: install-shell-files
+install-shell-files: bash zsh zsh-addons
+
+.PHONY: install-app-files
+install-app-files: bin usr
+
+.PHONY: install-config-files
+install-config-files:  config docker git gpg vscode misc
+
+.PHONY: install-util-files
+install-util-files: fonts pictures
 
 .PHONY: remove
 remove: remove-shell-files remove-app-files remove-config-files remove-util-files ## Remove the dotfile configs; **WARNING: files will be deleted**
@@ -18,7 +30,7 @@ remove-shell-files: bash-remove zsh-remove zsh-addons-remove
 remove-app-files: bin-remove usr-remove
 
 .PHONY: remove-config-files
-remove-config-files: config-remove docker-remove git-remove gpg-remove vscode-remove
+remove-config-files: config-remove docker-remove git-remove gpg-remove vscode-remove misc-remove
 
 .PHONY: remove-util-files
 remove-util-files: fonts-remove  pictures-remove
@@ -127,12 +139,20 @@ config-remove:
 
 .PHONY: docker
 docker:
-	ln -snf "$(CURDIR)/docker/.docker-alias" "$(HOME)/.docker-alias";
+	if [ -f "$(CURDIR)/docker/.docker-alias" ]; then \
+		ln -snf "$(CURDIR)/docker/.docker-alias" "$(HOME)/.docker-alias"; \
+	fi;
+	if [ -f "$(CURDIR)/docker/.docker-functions" ]; then \
+		ln -snf "$(CURDIR)/docker/.docker-functions" "$(HOME)/.docker-functions"; \
+	fi;
 
 .PHONY: docker-remove
 docker-remove:
 	if [ -f "$(HOME)/.docker-alias" ]; then \
 		rm "$(HOME)/.docker-alias"; \
+	fi;
+	if [ -f "$(HOME)/.docker-functions" ]; then \
+		rm "$(HOME)/.docker-functions"; \
 	fi;
 
 .PHONY: etc
@@ -237,6 +257,26 @@ gpg-remove:
 			rm "$(HOME)/.gnupg/$$f"; \
 		fi; \
 	done;
+
+.PHONY: misc
+misc:
+	# Neofetch
+	mkdir -p "$(HOME)/.config/neofetch"
+
+	for file in $(shell find "$(CURDIR)/neofetch" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
+		f=$$(basename $$file); \
+		ln -sfn $$file "$(HOME)/.config/neofetch/$$f"; \
+	done;
+
+.PHONY: misc-remove
+misc-remove:
+	for file in $(shell find "$(CURDIR)/neofetch" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
+		f=$$(basename $$file); \
+		if [ -f "$(HOME)/.config/neofetch/$$f" ]; then \
+			rm "$(HOME)/.config/neofetch/$$f"; \
+		fi; \
+	done;
+
 
 .PHONY: pictures
 pictures: ## Installs picture and settings
