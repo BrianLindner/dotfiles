@@ -17,8 +17,8 @@ alias dkr="docker compose run --rm web"
 alias dkcnthosts="docker ps --filter status=running --quiet | wc -l"
 alias dkcntnets="docker network ls --filter driver=bridge --quiet | wc -l"
 
-alias dkflush="docker rm `docker ps --no-trunc -aq`"
-alias dkflushi="docker rmi $(docker images --filter "dangling=true" -q --no-trunc)"
+alias dkflush="docker rm 'docker ps --no-trunc -aq'"
+alias dkflushi='docker rmi $(docker images --filter "dangling=true" -q --no-trunc)'
 
 alias dkt='docker stats --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.NetIO}}"'
 alias dkps="docker ps --format '{{.ID}} ~ {{.Names}} ~ {{.Status}} ~ {{.Image}}'"
