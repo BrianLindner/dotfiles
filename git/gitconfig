@@ -2,9 +2,10 @@
 # [includeIf "gitdir:~/"]
 #   	path = .gitconfig-personal
 [includeIf "gitdir:~/code/personal/"]
-  	path = ~/.gitconfig-personal
+  path = ~/.gitconfig-personal
 [includeIf "gitdir:~/SynologyDrive/Projects/"]
-  	path = ~/.gitconfig-personal
+  path = ~/.gitconfig-personal
+  # path = ~/SynologyDrive/Projects/dotfiles/git/config-profiles/gitconfig-personal-github
 [includeIf "gitdir:~/code/professional/"]
 	path = ~/.gitconfig-professional
 
@@ -18,9 +19,9 @@
 
 [commit]
 	gpgsign = true
+
 [pull]
 	rebase = true
-
 
 [alias]
 	# View abbreviated SHA, description, and history graph of the latest 20 commits
@@ -85,6 +86,9 @@
 
 	# List contributors with number of commits
 	contributors = shortlog --summary --numbered
+
+  userinfo = "!f() { echo 'user.name: '$(git config user.name);echo 'user.email: '$(git config user.email);echo 'github.user: '$(git config github.user);echo '';echo 'gpg.format: '$(git config gpg.format);echo 'user.signingkey: '$(git config user.signingkey); echo 'gpg.ssh.program: '$(git config gpg.ssh.program); echo 'commit.gpgsign: '$(git config commit.gpgsign); echo '';}; f"
+  userinfo-source = "!f() { echo 'user.name: '$(git config --show-origin user.name);echo 'user.email: '$(git config --show-origin user.email);echo 'github.user: '$(git config --show-origin github.user);echo '';echo 'gpg.format: '$(git config --show-origin gpg.format);echo 'user.signingkey: '$(git config --show-origin user.signingkey); echo 'gpg.ssh.program: '$(git config --show-origin gpg.ssh.program); echo 'commit.gpgsign: '$(git config --show-origin commit.gpgsign); echo '';}; f"
 
 	lg = log --color --decorate --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an (%G?)>%Creset' --abbrev-commit
 
