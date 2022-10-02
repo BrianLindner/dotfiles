@@ -35,6 +35,13 @@ remove-config-files: config-remove docker-remove git-remove gpg-remove vscode-re
 .PHONY: remove-util-files
 remove-util-files: fonts-remove  pictures-remove
 
+.PHONY: check
+check:
+	ls
+
+.PHONY: distcheck
+distcheck: check
+
 .PHONY: cleanup
 cleanup: ## Remove legacy files not used by current configuration
 	if [ -L "$(HOME)/.alias" ]; then \
