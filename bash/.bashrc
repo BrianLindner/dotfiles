@@ -102,7 +102,7 @@ if [[ -d /etc/bash_completion.d/ ]]; then
 fi
 
 # We do this before the following so that all the paths work.
-for file in ~/.{bash-functions,bash-alias,bash-prompt,docker-alias,docker-functions,bash-exports,extra-config,path}; do
+for file in ~/.{bash_functions,bash_alias,bash_prompt,docker_alias,docker_functions,bash_exports,extra_config,path}; do
 	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
 		# shellcheck source=/dev/null
 		source "$file"

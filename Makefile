@@ -21,7 +21,7 @@ install-config-files:  config docker git gpg vscode misc
 install-util-files: fonts pictures
 
 .PHONY: remove
-remove: remove-shell-files remove-app-files remove-config-files remove-util-files ## Remove the dotfile configs; **WARNING: files will be deleted**
+remove: cleanup remove-shell-files remove-app-files remove-config-files remove-util-files ## Remove the dotfile configs; **WARNING: files will be deleted**
 
 .PHONY: remove-shell-files
 remove-shell-files: bash-remove zsh-remove zsh-addons-remove
@@ -50,20 +50,29 @@ cleanup: ## Remove legacy files not used by current configuration
 	if [ -L "$(HOME)/.exports" ]; then \
 		rm "$(HOME)/.exports"; \
 	fi;
-	if [ -L "$(HOME)/.bash_exports" ]; then \
-		rm "$(HOME)/.bash_exports"; \
+	if [ -L "$(HOME)/.bash-alias" ]; then \
+		rm "$(HOME)/.bash-alias"; \
 	fi;
-	if [ -L "$(HOME)/.bash_alias" ]; then \
-		rm "$(HOME)/.bash_alias"; \
+	if [ -L "$(HOME)/.bash-exports" ]; then \
+		rm "$(HOME)/.bash-exports"; \
 	fi;
-# if [ -L "$(HOME)/.bash_profile" ]; then \
-# 	rm "$(HOME)/.bash_profile"; \
-# fi;
-	if [ -L "$(HOME)/.zsh_alias" ]; then \
-		rm "$(HOME)/.zsh_alias"; \
+	if [ -L "$(HOME)/.bash-functions" ]; then \
+		rm "$(HOME)/.bash-functions"; \
 	fi;
-	if [ -L "$(HOME)/.docker_alias" ]; then \
-		rm "$(HOME)/.docker_alias"; \
+	if [ -L "$(HOME)/.bash-profile" ]; then \
+		rm "$(HOME)/.bash-profile"; \
+	fi;
+	if [ -L "$(HOME)/.zsh-alias" ]; then \
+		rm "$(HOME)/.zsh-alias"; \
+	fi;
+	if [ -L "$(HOME)/.zsh-functions" ]; then \
+		rm "$(HOME)/.zsh-functions"; \
+	fi;
+	if [ -L "$(HOME)/.docker-alias" ]; then \
+		rm "$(HOME)/.docker-alias"; \
+	fi;
+	if [ -L "$(HOME)/.docker-functions" ]; then \
+		rm "$(HOME)/.docker-functions"; \
 	fi;
 
 .PHONY: bash
@@ -73,18 +82,18 @@ bash:
 		ln -sfn $$file "$(HOME)/$$f"; \
 	done;
 
-	ln -snf "$(CURDIR)/bash/.bash-profile" "$(HOME)/.profile";
+	ln -snf "$(CURDIR)/bash/.bash_profile" "$(HOME)/.profile";
 
 .PHONY: bash-remove
 bash-remove:
 	for file in $(shell find "$(CURDIR)/bash" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
 		f=$$(basename $$file); \
-		if [ -f "$(HOME)/$$f" ]; then \
+		if [ -L "$(HOME)/$$f" ]; then \
 			rm "$(HOME)/$$f"; \
 		fi; \
 	done;
 
-	if [ -f "$(HOME)/.profile" ]; then \
+	if [ -L "$(HOME)/.profile" ]; then \
 		rm "$(HOME)/.profile"; \
 	fi;
 
@@ -101,7 +110,7 @@ bin-remove:
 	# add aliases for things in bin
 	for file in $(shell find "$(CURDIR)/bin" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
 		f=$$(basename $$file); \
-		if [ -f /usr/local/bin/$$f; ]; then \
+		if [ -L /usr/local/bin/$$f; ]; then \
 			rm /usr/local/bin/$$f; \
 		fi; \
 	done;
@@ -213,7 +222,7 @@ fonts-remove:
 
 .PHONY: git
 git: ## Installs Git config files
-	for file in $(shell find "$(CURDIR)/git/config-profiles" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
+	for file in $(shell find "$(CURDIR)/git/config_profiles" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
 		f=$$(basename $$file); \
 		ln -sfn $$file "$(HOME)/.$$f"; \
 	done;
