@@ -1,3 +1,4 @@
+#!/bin/zsh
 
 # Linux specific aliases, work on both MacOS and Linux.
 pbcopy() {
