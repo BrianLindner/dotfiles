@@ -9,10 +9,10 @@ all: install
 install: cleanup install-app-files install-shell-files install-config-files install-util-files ## Installs shells, addons, bin fonts git gpg pictures
 
 .PHONY: install-shell-files
-install-shell-files: bash zsh zsh-addons
+install-shell-files: bash zsh zsh-addons alias_path
 
 .PHONY: install-app-files
-install-app-files: bin usr
+install-app-files: bin usr python
 
 .PHONY: install-config-files
 install-config-files:  config docker git gpg vscode misc
@@ -24,10 +24,10 @@ install-util-files: fonts pictures
 remove: cleanup remove-shell-files remove-app-files remove-config-files remove-util-files ## Remove the dotfile configs; **WARNING: files will be deleted**
 
 .PHONY: remove-shell-files
-remove-shell-files: bash-remove zsh-remove zsh-addons-remove
+remove-shell-files: bash-remove zsh-remove zsh-addons-remove alias_path-remove
 
 .PHONY: remove-app-files
-remove-app-files: bin-remove usr-remove
+remove-app-files: bin-remove usr-remove python-remove
 
 .PHONY: remove-config-files
 remove-config-files: config-remove docker-remove git-remove gpg-remove vscode-remove misc-remove
@@ -44,9 +44,9 @@ distcheck: check
 
 .PHONY: cleanup
 cleanup: ## Remove legacy files not used by current configuration
-	if [ -L "$(HOME)/.alias" ]; then \
-		rm "$(HOME)/.alias"; \
-	fi;
+#	if [ -L "$(HOME)/.alias" ]; then \
+#		rm "$(HOME)/.alias"; \
+#	fi;
 	if [ -L "$(HOME)/.exports" ]; then \
 		rm "$(HOME)/.exports"; \
 	fi;
@@ -73,6 +73,34 @@ cleanup: ## Remove legacy files not used by current configuration
 	fi;
 	if [ -L "$(HOME)/.docker-functions" ]; then \
 		rm "$(HOME)/.docker-functions"; \
+	fi;
+
+.PHONY: alias_path
+alias_path:
+	ln -snf "$(CURDIR)/.alias" "$(HOME)/.alias";
+	ln -snf "$(CURDIR)/.path" "$(HOME)/.path";
+
+	if [ -f "$(CURDIR)/macos/.alias" ]; then \
+		ln -snf "$(CURDIR)/macos/.alias" "$(HOME)/.macos_alias"; \
+	fi;
+	if [ -f "$(CURDIR)/macos/.path" ]; then \
+		ln -snf "$(CURDIR)/macos/.path" "$(HOME)/.macos_path"; \
+	fi;
+
+.PHONY: alias_path-remove
+alias_path-remove:
+	if [ -L "$(HOME)/.alias" ]; then \
+		rm "$(HOME)/.alias"; \
+	fi;
+	if [ -L "$(HOME)/.path" ]; then \
+		rm "$(HOME)/.path"; \
+	fi;
+
+	if [ -L "$(HOME)/.macos_alias" ]; then \
+		rm "$(HOME)/.macos_alias"; \
+	fi;
+	if [ -L "$(HOME)/.macos_path" ]; then \
+		rm "$(HOME)/.macos_path"; \
 	fi;
 
 .PHONY: bash
@@ -305,6 +333,22 @@ pictures-remove:
 	if [ -f "$(HOME)/Pictures/central-park.jpg" ]; then \
 		rm "$(HOME)/Pictures/central-park.jpg"; \
 	fi;
+
+.PHONY: python
+python:
+	for file in $(shell find "$(CURDIR)/python" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
+		f=$$(basename $$file); \
+		ln -sfn $$file "$(HOME)/$$f"; \
+	done;
+
+.PHONY: python-remove
+python-remove:
+	for file in $(shell find "$(CURDIR)/python" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
+		f=$$(basename $$file); \
+		if [ -f "$(HOME)/$$f" ]; then \
+			rm "$(HOME)/$$f"; \
+		fi; \
+	done;
 
 .PHONY: usr
 usr: ## Installs the usr directory files.
