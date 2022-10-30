@@ -354,11 +354,15 @@ python-remove:
 .PHONY: synology
 synology: ## Link Synology files
 	for d in ~/.SynologyDrive/data/session/*/conf; do \
-		ln -sfn $(CURDIR)/synology/drive_default_blacklist.filter $$d/blacklist.filter; \
+		if [ -f "$$d" ]; then \
+			ln -sfn $(CURDIR)/synology/drive_default_blacklist.filter $$d/blacklist.filter; \
+		fi; \
 	done;
 
 	for d in ~/.SynologyDrive/SynologyDrive.app/Contents/Resources/conf; do \
-		ln -sfn $(CURDIR)/synology/drive_global_blacklist.filter $$d/blacklist.filter; \
+		if [ -f "$$d" ]; then \
+			ln -sfn $(CURDIR)/synology/drive_global_blacklist.filter $$d/blacklist.filter; \
+		fi; \
 	done;
 
 .PHONY: synology-remove
