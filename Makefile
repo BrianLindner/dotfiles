@@ -12,7 +12,7 @@ install: cleanup install-app-files install-shell-files install-config-files inst
 install-shell-files: bash zsh zsh-addons alias_path
 
 .PHONY: install-app-files
-install-app-files: bin usr python
+install-app-files: bin usr python synology
 
 .PHONY: install-config-files
 install-config-files:  config docker git gpg vscode misc
@@ -27,7 +27,7 @@ remove: cleanup remove-shell-files remove-app-files remove-config-files remove-u
 remove-shell-files: bash-remove zsh-remove zsh-addons-remove alias_path-remove
 
 .PHONY: remove-app-files
-remove-app-files: bin-remove usr-remove python-remove
+remove-app-files: bin-remove usr-remove python-remove synology-remove
 
 .PHONY: remove-config-files
 remove-config-files: config-remove docker-remove git-remove gpg-remove vscode-remove misc-remove
@@ -348,6 +348,19 @@ python-remove:
 		if [ -f "$(HOME)/$$f" ]; then \
 			rm "$(HOME)/$$f"; \
 		fi; \
+	done;
+
+
+.PHONY: synology
+synology: ## Link Synology files
+	for d in ~/.SynologyDrive/data/session/*/conf; do \
+		ln -sfn $(CURDIR)/synology/drive_global_blacklist.filter $$d/blacklist.filter; \
+	done;
+
+.PHONY: synology-remove
+synology-remove:
+	for f in ~/.SynologyDrive/data/session/*/conf/blacklist.filter; do \
+		rm $$f; \
 	done;
 
 .PHONY: usr
