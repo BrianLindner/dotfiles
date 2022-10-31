@@ -2,12 +2,12 @@
 # [includeIf "gitdir:~/"]
 #   	path = .gitconfig-personal
 [includeIf "gitdir:~/code/personal/"]
-  path = ~/.gitconfig-personal
-[includeIf "gitdir:~/SynologyDrive/Projects/"]
-  path = ~/.gitconfig-personal
+  path = ~/.gitconfig_personal
+[includeIf "gitdir:~/SynologyDrive/Projects/GitHub/"]
+  path = ~/.gitconfig_personal_github
   # path = ~/SynologyDrive/Projects/dotfiles/git/config-profiles/gitconfig-personal-github
 [includeIf "gitdir:~/code/professional/"]
-	path = ~/.gitconfig-professional
+	path = ~/.gitconfig_professional
 
 [core]
 # global gitignore file
@@ -58,6 +58,9 @@
 	tags = tag -l
 	branches = branch -a
 	remotes = remote -v
+
+  # tag and annotate
+  tag-md = tag --annotate --cleanup=whitespace --edit --message \"\"
 
 	# Amend the currently staged files to the latest commit
 	amend = commit --amend --reuse-message=HEAD
