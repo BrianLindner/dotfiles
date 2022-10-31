@@ -1,0 +1,10 @@
+[user]
+	name = Professional
+  email =
+	signingkey =
+
+[github]
+  user =
+
+[commit]
+  gpgsign = true

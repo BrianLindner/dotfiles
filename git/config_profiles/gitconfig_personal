@@ -1,0 +1,10 @@
+[user]
+	name = Brian Lindner
+  email = 8153326+BrianLindner@users.noreply.github.com
+	signingkey = 8A53187BAA2C7197
+
+[github]
+  user = BrianLindner
+
+[commit]
+  gpgsign = true
