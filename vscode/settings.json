@@ -13,7 +13,7 @@
   "editor.formatOnSave": true, // custom
   "editor.maxTokenizationLineLength": 2000,
   "editor.multiCursorModifier": "ctrlCmd",
-  "editor.fontFamily": "'Cascadia Code', 'Fira Code', Menlo, Monaco, 'Courier New', monospace, Powerline", // custom
+  "editor.fontFamily": "'MesloLGS NF', 'Cascadia Code', 'Fira Code', Menlo, Monaco, 'Courier New', monospace, Powerline", // custom
   "editor.codeActionsOnSave": { // custom
     "source.organizeImports": true // custom
   },
@@ -42,12 +42,12 @@
   "files.trimFinalNewlines": true, // custom
   "yaml.format.printWidth": 110, // custom
   "terminal.integrated.defaultProfile.osx": "zsh", // custom
-  "terminal.integrated.fontFamily": "MesloLGS NF, monospace",
+  "terminal.integrated.fontFamily": "'MesloLGS NF', monospace",
   "window.title": "${remoteName}${separator}${activeEditorMedium}${separator}${rootPath}${dirty}", // custom
   "window.titleSeparator": " : ", // custom
   "window.zoomLevel": 0, // custom
-  "workbench.iconTheme": "vscode-icons", // custom
-  "workbench.colorTheme": "Cobalt2", // custom
+  "workbench.colorTheme": "Cobalt2",
+  "workbench.iconTheme": "vscode-icons",
   "workbench.editorAssociations": {
     "*.ipynb": "jupyter-notebook"
   },
@@ -477,5 +477,5 @@
       "label": "Recent Issues",
       "query": "state:open repo:${owner}/${repository} sort:updated-desc"
     }
-  ],
+  ]
 }

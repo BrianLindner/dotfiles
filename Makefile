@@ -223,11 +223,12 @@ etc: ## Installs the etc directory files.
 
 .PHONY: fonts
 fonts: ## Installs fonts and related items.
-	ln -snf "$(CURDIR)/fonts" "$(HOME)/.local/share/fonts";
+	ln -snf "$(CURDIR)/fonts/fonts" "$(HOME)/.local/share/fonts";
+	ln -snf "$(CURDIR)/fonts/fonts" "$(HOME)/.fonts";
 
-	if [ -f "$(CURDIR)/.config/fontconfig/fontconfig.conf" ]; then \
+	if [ -f "$(CURDIR)/fonts/fontconfig.conf" ]; then \
 		mkdir -p "$(HOME)/.config/fontconfig"; \
-		ln -snf "$(CURDIR)/.config/fontconfig/fontconfig.conf" "$(HOME)/.config/fontconfig/fontconfig.conf"; \
+		ln -snf "$(CURDIR)/fonts/fontconfig.conf" "$(HOME)/.config/fontconfig/fontconfig.conf"; \
 	fi;
 
 	if [ -f /usr/local/bin/fc-cache ]; then \
