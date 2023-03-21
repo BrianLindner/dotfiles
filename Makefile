@@ -80,11 +80,14 @@ alias_path:
 	ln -snf "$(CURDIR)/.alias" "$(HOME)/.alias";
 	ln -snf "$(CURDIR)/.path" "$(HOME)/.path";
 
-	if [ -f "$(CURDIR)/macos/.alias" ]; then \
-		ln -snf "$(CURDIR)/macos/.alias" "$(HOME)/.macos_alias"; \
+	if [ -f "$(CURDIR)/macos/.macos_alias" ]; then \
+		ln -snf "$(CURDIR)/macos/.macos_alias" "$(HOME)/.macos_alias"; \
 	fi;
-	if [ -f "$(CURDIR)/macos/.path" ]; then \
-		ln -snf "$(CURDIR)/macos/.path" "$(HOME)/.macos_path"; \
+	if [ -f "$(CURDIR)/macos/.macos_path" ]; then \
+		ln -snf "$(CURDIR)/macos/.macos_path" "$(HOME)/.macos_path"; \
+	fi;
+	if [ -f "$(CURDIR)/macos/.macos_exports" ]; then \
+		ln -snf "$(CURDIR)/macos/.macos_exports" "$(HOME)/.macos_exports"; \
 	fi;
 
 .PHONY: alias_path-remove
@@ -101,6 +104,9 @@ alias_path-remove:
 	fi;
 	if [ -L "$(HOME)/.macos_path" ]; then \
 		rm "$(HOME)/.macos_path"; \
+	fi;
+	if [ -L "$(HOME)/.macos_exports" ]; then \
+		rm "$(HOME)/.macos_exports"; \
 	fi;
 
 .PHONY: bash
@@ -285,6 +291,7 @@ git-remove:
 gpg: ## Installs GPG config files
 	# gpg --list-keys || true;
 	mkdir -p "$(HOME)/.gnupg"
+	chmod 700 "$(HOME)/.gnupg"
 
 	for file in $(shell find "$(CURDIR)/gnupg" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
 		f=$$(basename $$file); \

@@ -1,0 +1,9 @@
+#!/bin/zsh
+
+export HOMEBREW_NO_ANALYTICS=1
+
+# SSH Auth
+unset SSH_AGENT_PID
+if [[ -z "$SSH_TTY" ]]; then
+  export SSH_AUTH_SOCK=~/.1password/agent.sock
+fi

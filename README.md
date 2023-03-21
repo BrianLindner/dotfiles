@@ -2,6 +2,8 @@
 # Brian's dotfiles <!-- omit in toc -->
 
 - [Installation](#installation)
+- [Additional: Addons](#additional-addons)
+- [Additional: macOS](#additional-macos)
 - [Help](#help)
 - [References](#references)
 
@@ -34,6 +36,22 @@ make install
 ```
 
 This will create symlinks from the repo folder to your home folder.
+
+---
+
+## Additional: Addons
+
+Optionally may need to install some shell or utility tooling
+
+See: [Additional Addons](README-ADDONS.md)
+
+---
+
+## Additional: macOS
+
+Optionally may need to install some shell or utility tooling
+
+See: [Additional macOS Steps](macos/MACOS.md)
 
 ---
 
