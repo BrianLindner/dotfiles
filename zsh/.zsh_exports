@@ -1,0 +1,6 @@
+
+
+# IF SSH - export GPG_TTY
+if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
+	export GPG_TTY=$(tty)
+fi

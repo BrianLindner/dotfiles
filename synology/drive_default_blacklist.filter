@@ -9,13 +9,13 @@ max_path = 0
 
 [File]
 black_name = "thumbs.db", ".git", ".log", "log", "desktop.ini", ".ds_store"
-black_prefix = ".venv-", ".venv_", "venv-", "venv_"
+black_prefix = ".venv-", ".venv_", "venv-", "venv_", ".virtualenvs"
 black_suffix = ".lnk", ".log", ".logs", ".pst", ".swp", ".tmp", ".temp", "@tmp", "@eaDir", ".SynologyWorkingDirectory", "#recycle", "desktop.ini", ".ds_store", "Icon\r", "thumbs.db", "$Recycle.Bin", "@sharebin", "tmp", "temp", "System Volume Information", "#snapshot"
 max_size = 0
 
 [Directory]
-black_name = "@tmp", "@eaDir", "#recycle", ".SynologyWorkingDirectory", "$Recycle.Bin", "@sharebin", "Icon\r", ".git", ".cache", "node_modules", ".node-gyp", "bower_components", "log", "logs", "venv", ".venv", ".pytest_cache", "__pycache__", "Automatically Add to iTunes.localized", "System Volume Information", "Program Files", "Program Files (x86)", "ProgramData", "#snapshot"
-black_prefix = ".venv-", ".venv_", "venv-", "venv_", "noindex"
+black_name = "@tmp", "@eaDir", "#recycle", ".SynologyWorkingDirectory", "$Recycle.Bin", "@sharebin", "Icon\r", ".git", ".cache", "node_modules", ".node-gyp", "bower_components", "log", "logs", "venv", ".venv", ".virtualenvs", ".pytest_cache", "__pycache__", "Automatically Add to iTunes.localized", "System Volume Information", "Program Files", "Program Files (x86)", "ProgramData", "#snapshot"
+black_prefix = ".venv-", ".venv_", "venv-", "venv_", ".virtualenvs", "noindex"
 black_suffix = ".log", ".logs", ".tmp", ".temp", ".SynologyWorkingDirectory", "noindex"
 
 [EA]
