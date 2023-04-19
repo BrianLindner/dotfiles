@@ -5,7 +5,3 @@ alias ec="$EDITOR $HOME/.bashrc"
 
 # source ~/.bashrc
 alias sc="source $HOME/.bashrc"
-
-if [[ $OSTYPE == darwin* ]]; then
-  source "$HOME/.macos_alias"
-fi
