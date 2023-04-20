@@ -1,6 +1,18 @@
-
+export HISTFILE=~/.zsh_history
+export HISTFILESIZE=1000000000
+export HISTSIZE=1000000000
+export HISTTIMEFORMAT="[%F %T] "
+setopt INC_APPEND_HISTORY
+setopt EXTENDED_HISTORY
 
 # IF SSH - export GPG_TTY
 if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
 	export GPG_TTY=$(tty)
+fi
+
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='nano'
+else
+  export EDITOR='nano'
 fi

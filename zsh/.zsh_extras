@@ -8,13 +8,3 @@ for file in ~/.{alias,zsh_functions,zsh_alias,zsh_exports,docker_alias,docker_fu
 	fi
 done
 unset file
-
-# macOS Specific settings
-if [[ $OSTYPE == darwin* ]]; then
-  for file in ~/.{macos_alias,macos_exports,macos_path}; do
-    if [[ -r "$file" ]] && [[ -f "$file" ]]; then
-      # shellcheck source=/dev/null
-      source "$file"
-    fi
-  done
-fi

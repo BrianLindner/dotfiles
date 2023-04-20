@@ -32,7 +32,8 @@ alias code='/Applications/Visual\ Studio\ Code.app/Contents/MacOS/Electron'
 ## Command Alias
 ####################
 
-# alias editor='code'
+# export EDITOR='code'
+alias editor=$EDITOR
 
 # Merge PDF files
 # Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
