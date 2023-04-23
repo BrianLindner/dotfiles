@@ -4,7 +4,7 @@ alias vim="nvim"
 
 # Check for various OS openers. Quit as soon as we find one that works.
 for opener in browser-exec xdg-open cmd.exe cygstart "start" open; do
-	if command -v $opener >/dev/null 2>&1; then
+	if command -v $opener > /dev/null 2>&1; then
 		if [[ "$opener" == "cmd.exe" ]]; then
 			# shellcheck disable=SC2139
 			alias open="$opener /c start";
@@ -16,13 +16,12 @@ for opener in browser-exec xdg-open cmd.exe cygstart "start" open; do
 	fi
 done
 
-
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-alias ~="cd ~" # `cd` is probably faster to type though
+alias ~="cd ~"
 # alias -- -="cd -"
 
 # Enable aliases to be sudo’ed
@@ -77,12 +76,16 @@ export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40
 ## alter LS for specific cases
 if command -v exa > /dev/null; then
   alias ls="exa"
-  alias ll="exa --long --header --group --all --classify --git"
+  if exa -v | grep "\+git" > /dev/null; then
+    alias ll="exa --long --header --group --all --classify --git"
+    alias lsd="exa --long --header --group --classify --only-dirs --git"
+  else
+    alias ll="exa --long --header --group --all --classify"
+    alias lsd="exa --long --header --group --classify --only-dirs"
+  fi
   alias l="exa --long --header --classify"
-  alias lsd="exa --long --header --group --classify --git --only-dirs"
   alias tree="exa --tree"
 fi
-
 
 # Always enable colored `grep` output
 alias grep='grep --color=auto '
