@@ -57,6 +57,8 @@ venv.bak/
 *.ori
 *.[Oo]rig
 *.[Tt]mp
+*.swp
+*~
 
 # SSH
 **/.ssh/id_*
