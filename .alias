@@ -16,6 +16,7 @@ for opener in browser-exec xdg-open cmd.exe cygstart "start" open; do
 	fi
 done
 
+
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
 alias ...="cd ../.."
@@ -24,11 +25,21 @@ alias .....="cd ../../../.."
 alias ~="cd ~" # `cd` is probably faster to type though
 # alias -- -="cd -"
 
+# Enable aliases to be sudo’ed
+alias sudo='sudo '
+
 # Shortcuts
+alias e="$EDITOR"
+alias editor="$EDITOR"
+alias v="$VISUAL"
 alias dl="cd ~/Downloads"
 alias g="git"
 alias h="history"
 alias gc=". /usr/local/bin/gitdate && git commit -v "
+
+alias path='echo $PATH | tr -s ":" "\n"'
+
+alias mkdir="mkdir -p"
 
 alias history="history -i"
 
@@ -75,9 +86,6 @@ fi
 
 # Always enable colored `grep` output
 alias grep='grep --color=auto '
-
-# Enable aliases to be sudo’ed
-alias sudo='sudo '
 
 # Get week number
 alias week='date +%V'
@@ -150,8 +158,7 @@ alias untar='tar xvf'
 
 alias sshtunnel="ssh -nNT -L"
 
-## OS Specific additions
-# macOS Specific settings
+# macOS Specific additions
 if [[ $OSTYPE == darwin* ]]; then
   for file in ~/.{macos_alias,macos_exports,macos_path}; do
     if [[ -r "$file" ]] && [[ -f "$file" ]]; then
@@ -159,4 +166,9 @@ if [[ $OSTYPE == darwin* ]]; then
       source "$file"
     fi
   done
+fi
+
+# Include custom aliases for host
+if [[ -f ~/.alias.local ]]; then
+  source ~/.alias.local
 fi
