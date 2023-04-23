@@ -75,6 +75,16 @@ cleanup: ## Remove legacy files not used by current configuration
 		rm "$(HOME)/.docker-functions"; \
 	fi;
 
+	if [ -L "$(HOME)/.gitconfig-personal" ]; then \
+		rm "$(HOME)/.gitconfig-personal"; \
+	fi;
+	if [ -L "$(HOME)/gitconfig-personal-github" ]; then \
+		rm "$(HOME)/gitconfig-personal-github"; \
+	fi;
+	if [ -L "$(HOME)/.gitconfig-professional" ]; then \
+		rm "$(HOME)/.gitconfig-professional"; \
+	fi;
+
 .PHONY: alias_path
 alias_path:
 	ln -snf "$(CURDIR)/.alias" "$(HOME)/.alias";
@@ -273,7 +283,7 @@ git: ## Installs Git config files
 
 .PHONY: git-remove
 git-remove:
-	for file in $(shell find "$(CURDIR)/git/config-profiles" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
+	for file in $(shell find "$(CURDIR)/git/config_profiles" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
 		f=$$(basename $$file); \
 		if [ -f "$(HOME)/.$$f" ]; then \
 			rm "$(HOME)/.$$f"; \
