@@ -3,7 +3,7 @@
 #   	path = .gitconfig-personal
 [includeIf "gitdir:~/code/personal/"]
   path = ~/.gitconfig_personal
-[includeIf "gitdir:~/SynologyDrive/Projects/GitHub/"]
+[includeIf "gitdir:~/Projects/GitHub/"]
   path = ~/.gitconfig_personal_github
   # path = ~/SynologyDrive/Projects/dotfiles/git/config-profiles/gitconfig-personal-github
 [includeIf "gitdir:~/code/professional/"]
