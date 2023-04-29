@@ -66,5 +66,11 @@ make help
 ---
 ## References
 
-Inspired by examples/info from [jessfraz/dotfiles](https://github.com/jessfraz/dotfiles)
+Inspired by examples/info from:
+* [jessfraz/dotfiles](https://github.com/jessfraz/dotfiles)
+* [mathiasbynens/dotfiles](https://github.com/mathiasbynens/dotfiles)
+* [pawelgrzybek/dotfiles](https://github.com/pawelgrzybek/dotfiles)
+* [holman/dotfiles](https://github.com/holman/dotfiles)
+* [thoughtbot/dotfiles](https://github.com/thoughtbot/dotfiles)
+
 and many other examples across the Internet
