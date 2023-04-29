@@ -161,6 +161,10 @@ alias untar='tar xvf'
 
 alias sshtunnel="ssh -nNT -L"
 
+alias listusers="cat /etc/passwd | grep -i -v "/sbin/nologin\|/bin/false\|/bin/true" | awk -F: '{print $1}'"
+
+alias nsinfo="nslookup -type=any"
+
 # macOS Specific additions
 if [[ $OSTYPE == darwin* ]]; then
   for file in ~/.{macos_alias,macos_exports,macos_path}; do
