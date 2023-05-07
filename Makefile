@@ -346,7 +346,6 @@ misc:
 		ln -sfn $$file "${CONFIG_HOME}/tmux/$$f"; \
 	done;
 
-
 .PHONY: misc-remove
 misc-remove:
 	for file in $(shell find "${CURDIR}/neofetch" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
