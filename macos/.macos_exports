@@ -4,6 +4,7 @@ export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_GOOGLE_ANALYTICS=1
 
 export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_CACHE_HOME="${HOME}/.cache"
 
 # SSH Auth
 unset SSH_AGENT_PID
