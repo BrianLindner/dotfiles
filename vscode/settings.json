@@ -5,7 +5,6 @@
   "telemetry.enableCrashReporter": false, // custom - Depricated crash reporting flag
   "telemetry.telemetryLevel": "off", // new telemetry setting
   "audioCues.lineHasWarning": "off",
-  "audioCues.lineHasError": "on",
   "audioCues.onDebugBreak": "on",
   "audioCues.volume": 80,
   "editor.fontLigatures": true, // custom
@@ -13,7 +12,8 @@
   "editor.formatOnSave": true, // custom
   "editor.maxTokenizationLineLength": 2000,
   "editor.multiCursorModifier": "ctrlCmd",
-  "editor.fontFamily": "'MesloLGS NF', 'Cascadia Code', 'Fira Code', Menlo, Monaco, 'Courier New', monospace, Powerline", // custom
+  "editor.fontFamily": "'MesloLGS NF', 'MesloLGS Nerd Font', 'MesloLGM Nerd Font', 'Cascadia Code', 'Fira Code Nerd Font','Fira Code', Menlo, Monaco, 'Courier New', monospace, Powerline", // custom
+  // "editor.fontFamily": "monospace",
   "editor.codeActionsOnSave": { // custom
     "source.organizeImports": true // custom
   },
@@ -45,9 +45,10 @@
   "terminal.integrated.fontFamily": "'MesloLGS NF', monospace",
   "window.title": "${remoteName}${separator}${activeEditorMedium}${separator}${rootPath}${dirty}", // custom
   "window.titleSeparator": " : ", // custom
-  "window.zoomLevel": 0, // custom
   "workbench.colorTheme": "Cobalt2",
   "workbench.iconTheme": "vscode-icons",
+  "window.zoomLevel": 0,
+  "git.path": "/Library/Developer/CommandLineTools",
   "workbench.editorAssociations": {
     "*.ipynb": "jupyter-notebook"
   },
@@ -77,7 +78,6 @@
       "cursorDown"
     ]
   },
-  "git.path": "/Library/Developer/CommandLineTools",
   "python.pythonPath": "/usr/local/bin/python3",
   "better-comments.highlightPlainText": true,
   "better-comments.tags": [
@@ -477,5 +477,13 @@
       "label": "Recent Issues",
       "query": "state:open repo:${owner}/${repository} sort:updated-desc"
     }
-  ]
+  ],
+  "settingsSync.ignoredSettings": [],
+  "window.restoreWindows": "none",
+  "files.exclude": {
+    "**/.stfolder": true
+  },
+  "notebook.output.scrolling": true,
+  "notebook.formatOnSave.enabled": true,
+  "editor.stickyScroll.enabled": true,
 }
