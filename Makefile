@@ -346,6 +346,19 @@ misc:
 		ln -sfn $$file "${CONFIG_HOME}/tmux/$$f"; \
 	done;
 
+	# Neovim
+	mkdir -p "${CONFIG_HOME}/nvim"
+
+	for file in $(shell find "${CURDIR}/nvim" -type f -maxdepth 1 -not -name "*-backlight" -not -name ".*.swp"); do \
+		f=$$(basename $$file); \
+		ln -sfn $$file "${CONFIG_HOME}/nvim/$$f"; \
+	done;
+
+	for dir in $(shell find "${CURDIR}/nvim" -type d -not -name "nvim" -maxdepth 1 ); do \
+		d=$$(basename $$dir); \
+		ln -sfn $$dir "${CONFIG_HOME}/nvim/$$d"; \
+	done;
+
 .PHONY: misc-remove
 misc-remove:
 	for file in $(shell find "${CURDIR}/neofetch" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
