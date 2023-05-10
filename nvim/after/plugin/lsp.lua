@@ -13,6 +13,7 @@ lsp.ensure_installed({
   'yamlls',
   'jsonls',
   'sqlls',
+  'ansiblels',
 })
 
 -- Fix Undefined global 'vim'
