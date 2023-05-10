@@ -1,10 +1,10 @@
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 
-local The_Fugitive = vim.api.nvim_create_augroup("The_Fugitive", {})
+local TheFugitive = vim.api.nvim_create_augroup("TheFugitive", {})
 
 local autocmd = vim.api.nvim_create_autocmd
 autocmd("BufWinEnter", {
-    group = The_Fugitive,
+    group = TheFugitive,
     pattern = "*",
     callback = function()
         if vim.bo.ft ~= "fugitive" then
