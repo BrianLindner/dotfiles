@@ -1,3 +1,4 @@
+vim.keymap.set('n', '<leader>w', '<cmd>write<cr>', {desc = 'Save'})
 
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
@@ -37,6 +38,9 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
 vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.config/nvim/lua/brian/packer.lua<CR>");
 vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
+
+-- clear search
+vim.keymap.set('n', '<leader>h', ':nohlsearch<CR>')
 
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")

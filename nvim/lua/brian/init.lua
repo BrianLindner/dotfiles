@@ -1,4 +1,3 @@
-require("brian.bootstrap")
 require("brian.packer")
 require("brian.set")
 require("brian.remap")
