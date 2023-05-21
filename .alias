@@ -36,6 +36,8 @@ alias g="git"
 alias h="history"
 alias gc=". /usr/local/bin/gitdate && git commit -v "
 
+alias gforcepull="git fetch --all && git reset --hard origin/main && git pull"
+
 alias path='echo $PATH | tr -s ":" "\n"'
 
 alias mkdir="mkdir -p"
@@ -47,6 +49,9 @@ if command -v bat > /dev/null; then
 elif command -v batcat > /dev/null; then
   alias cat="batcat"
 fi
+
+# Tmux
+alias tn="tmux new -s $(pwd | sed 's/.*\///g')"
 
 # Detect which `ls` flavor is in use
 if command -v ls --color > /dev/null 2>&1; then # GNU `ls`
