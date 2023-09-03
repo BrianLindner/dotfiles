@@ -50,9 +50,10 @@ elif command -v batcat > /dev/null; then
   alias cat="batcat"
 fi
 
-# DateTime
+# Date or Time information
 alias nowtime='date +"%T"' #current time in 24hrs format as HH:MM:SS
 alias nowdate='date +"%d-%m-%Y"' #current date in format dd-MM-YY
+alias week='date +%V' # Get week number
 
 # Tmux
 alias tn="tmux new -s $(pwd | sed 's/.*\///g')"
@@ -98,9 +99,6 @@ fi
 
 # Always enable colored `grep` output
 alias grep='grep --color=auto '
-
-# Get week number
-alias week='date +%V'
 
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
