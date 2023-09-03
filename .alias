@@ -50,6 +50,10 @@ elif command -v batcat > /dev/null; then
   alias cat="batcat"
 fi
 
+# DateTime
+alias nowtime='date +"%T"' #current time in 24hrs format as HH:MM:SS
+alias nowdate='date +"%d-%m-%Y"' #current date in format dd-MM-YY
+
 # Tmux
 alias tn="tmux new -s $(pwd | sed 's/.*\///g')"
 
@@ -169,6 +173,11 @@ alias sshtunnel="ssh -nNT -L"
 alias listusers="cat /etc/passwd | grep -i -v "/sbin/nologin\|/bin/false\|/bin/true" | awk -F: '{print $1}'"
 
 alias nsinfo="nslookup -type=any"
+
+# iptables
+alias iptlist='sudo /sbin/iptables -L -n -v --line-numbers' # display all lines of current iptables
+alias iptlistin='sudo /sbin/iptables -L INPUT -n -v --line-numbers' # display all INCOMING rules in iptables
+alias iptlistout='sudo /sbin/iptables -L OUTPUT -n -v --line-numbers' # display all OUTGOING rules in iptables
 
 # macOS Specific additions
 if [[ $OSTYPE == darwin* ]]; then
