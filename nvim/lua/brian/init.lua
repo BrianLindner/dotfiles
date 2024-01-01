@@ -1,9 +1,9 @@
-require("myconfigs.packer")
-require("myconfigs.set")
-require("myconfigs.remap")
+require("brian.packer")
+require("brian.set")
+require("brian.remap")
 
 local augroup = vim.api.nvim_create_augroup
-local MyConfigs = augroup('MyConfigs', {})
+local BrianGroup = augroup('Brian', {})
 
 local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup('HighlightYank', {})
@@ -24,7 +24,7 @@ autocmd('TextYankPost', {
 })
 
 autocmd({"BufWritePre"}, {
-    group = MyConfigs,
+    group = BrianGroup,
     pattern = "*",
     command = [[%s/\s\+$//e]],
 })
