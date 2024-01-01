@@ -20,13 +20,13 @@ install-shell-files: bash zsh zsh-addons alias_path
 install-app-files: bin usr python
 
 .PHONY: install-config-files
-install-config-files: config docker git gpg misc
+install-config-files: config docker git gpg misc vscode
 
 .PHONY: install-util-files
 install-util-files: fonts pictures
 
 .PHONY: remove
-remove: cleanup remove-shell-files remove-app-files remove-config-files remove-util-files ## Remove the dotfile configs; **WARNING: files will be deleted**
+remove: cleanup remove-shell-files remove-app-files remove-config-files remove-util-files ## Remove the dotfile configs; **WARNING: files will be deleted :WARNING**
 
 .PHONY: remove-shell-files
 remove-shell-files: bash-remove zsh-remove zsh-addons-remove alias_path-remove
@@ -35,13 +35,13 @@ remove-shell-files: bash-remove zsh-remove zsh-addons-remove alias_path-remove
 remove-app-files: bin-remove usr-remove python-remove
 
 .PHONY: remove-config-files
-remove-config-files: config-remove docker-remove git-remove gpg-remove misc-remove
+remove-config-files: config-remove docker-remove git-remove gpg-remove misc-remove vscode-remove
 
 .PHONY: remove-util-files
 remove-util-files: fonts-remove  pictures-remove
 
 .PHONY: uninstall
-uninstall: remove ## Alias for remove; Remove the dotfile configs; **WARNING: files will be deleted**
+uninstall: remove ## Alias for remove; Remove the dotfile configs; **WARNING: files will be deleted :WARNING**
 
 .PHONY: check
 check:
@@ -129,17 +129,17 @@ alias_path-remove:
 
 .PHONY: bash
 bash:
-	for file in $(shell find "${CURDIR}/bash" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
-		ln -sfn $$file "${HOME}/$$f"; \
+	find "${CURDIR}/bash" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
+		ln -sfn "$$file" "${HOME}/$$f"; \
 	done;
 
 	ln -snf "${CURDIR}/bash/.bash_profile" "${HOME}/.profile";
 
 .PHONY: bash-remove
 bash-remove:
-	for file in $(shell find "${CURDIR}/bash" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
+	find "${CURDIR}/bash" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
 		if [ -L "${HOME}/$$f" ]; then \
 			rm "${HOME}/$$f"; \
 		fi; \
@@ -152,18 +152,18 @@ bash-remove:
 .PHONY: bin
 bin: ## Installs the bin directory files.
 	# add aliases for items in bin
-	for file in $(shell find "${CURDIR}/bin" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
-		sudo ln -sf $$file /usr/local/bin/$$f; \
+	find "${CURDIR}/bin" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
+		sudo ln -sf "$$file" "/usr/local/bin/$$f"; \
 	done;
 
 .PHONY: bin-remove
 bin-remove:
 	# remove aliases for items in bin
-	for file in $(shell find "${CURDIR}/bin" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
-		if [ -L /usr/local/bin/$$f; ]; then \
-			rm /usr/local/bin/$$f; \
+	find "${CURDIR}/bin" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
+		if [ -L "/usr/local/bin/$$f"; ]; then \
+			rm "/usr/local/bin/$$f"; \
 		fi; \
 	done;
 
@@ -173,9 +173,9 @@ config: ## Installs the base config dotfiles.
 	mkdir -p "${HOME}/.local/share";
 
 #	add aliases for dotfiles
-	for file in $(shell find "${CURDIR}" -maxdepth 1 -type f -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".pytest_cache" -not -name ".DS_Store"); do \
-		f=$$(basename $$file); \
-		ln -sfn $$file "${HOME}/$$f"; \
+	find "${CURDIR}" -maxdepth 1 -type f -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".pytest_cache" -not -name ".DS_Store" -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
+		ln -sfn "$$file" "${HOME}/$$f"; \
 	done;
 
 	ln -snf "${CURDIR}/i3" "${CONFIG_HOME}/sway";
@@ -189,9 +189,9 @@ config-remove:
 	# mkdir -p "${CONFIG_HOME}";
 	# mkdir -p "${HOME}/.local/share";
 
-#	add aliases for dotfiles
-	for file in $(shell find "${CURDIR}" -maxdepth 1 -type f -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".pytest_cache" -not -name ".DS_Store"); do \
-		f=$$(basename $$file); \
+#	remove aliases for dotfiles
+	find "${CURDIR}" -maxdepth 1 -type f -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".pytest_cache" -not -name ".DS_Store"-print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
 		if [ -f "${HOME}/$$f" ]; then \
 			rm "${HOME}/$$f"; \
 		fi; \
@@ -226,10 +226,10 @@ docker-remove:
 .PHONY: etc
 etc: ## Installs the etc directory files.
 	sudo mkdir -p /etc/docker/seccomp
-	for file in $(shell find "${CURDIR}/etc" -type f -not -name ".*.swp"); do \
-		f=$$(echo $$file | sed -e 's|"${CURDIR}"||'); \
-		sudo mkdir -p $$(dirname $$f); \
-		sudo ln -f $$file $$f; \
+	find "${CURDIR}/etc" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(echo "$$file" | sed -e 's|"${CURDIR}"||'); \
+		sudo mkdir -p $$(dirname "$$f"); \
+		sudo ln -f "$$file" "$$f"; \
 	done;
 
 	systemctl --user daemon-reload || true
@@ -265,6 +265,10 @@ fonts-remove:
 		rm "${HOME}/.local/share/fonts"; \
 	fi;
 
+	if [ -d "${HOME}/.fonts" ]; then \
+		rm "${HOME}/.fonts"; \
+	fi;
+
 	if [ -f "${CONFIG_HOME}/fontconfig/fontconfig.conf" ]; then \
 		rm "${CONFIG_HOME}/fontconfig/fontconfig.conf"; \
 	fi;
@@ -275,9 +279,9 @@ fonts-remove:
 
 .PHONY: git
 git: ## Installs Git config files
-	for file in $(shell find "${CURDIR}/git/config_profiles" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
-		ln -sfn $$file "${HOME}/.$$f"; \
+	find "${CURDIR}/git/config_profiles" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
+		ln -sfn "$$file" "${HOME}/.$$f"; \
 	done;
 
 	if [ -f "${CURDIR}/git/gitignore" ]; then \
@@ -291,8 +295,8 @@ git: ## Installs Git config files
 
 .PHONY: git-remove
 git-remove:
-	for file in $(shell find "${CURDIR}/git/config_profiles" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
+	find "${CURDIR}/git/config_profiles" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
 		if [ -f "${HOME}/.$$f" ]; then \
 			rm "${HOME}/.$$f"; \
 		fi; \
@@ -311,9 +315,9 @@ gpg: ## Installs GPG config files
 	mkdir -p "${HOME}/.gnupg"
 	chmod 700 "${HOME}/.gnupg"
 
-	for file in $(shell find "${CURDIR}/gnupg" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
-		ln -sfn $$file "${HOME}/.gnupg/$$f"; \
+	find "${CURDIR}/gnupg" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
+		ln -sfn "$$file" "${HOME}/.gnupg/$$f"; \
 	done;
 
 .PHONY: gpg-remove
@@ -321,8 +325,8 @@ gpg-remove:
 	# gpg --list-keys || true;
 	# mkdir -p "${HOME}/.gnupg" # leave folder as other keys/items may be in use
 
-	for file in $(shell find "${CURDIR}/gnupg" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
+	find "${CURDIR}/gnupg" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
 		if [ -f "${HOME}/.gnupg/$$f" ]; then \
 			rm "${HOME}/.gnupg/$$f"; \
 		fi; \
@@ -333,45 +337,59 @@ misc:
 	# Neofetch
 	mkdir -p "${CONFIG_HOME}/neofetch"
 
-	for file in $(shell find "${CURDIR}/neofetch" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
-		ln -sfn $$file "${CONFIG_HOME}/neofetch/$$f"; \
+	find "${CURDIR}/neofetch" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
+		ln -sfn "$$file" "${CONFIG_HOME}/neofetch/$$f"; \
 	done;
 
 	# Tmux
 	mkdir -p "${CONFIG_HOME}/tmux"
 
-	for file in $(shell find "${CURDIR}/tmux" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
-		ln -sfn $$file "${CONFIG_HOME}/tmux/$$f"; \
+	find "${CURDIR}/tmux" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
+		ln -sfn "$$file" "${CONFIG_HOME}/tmux/$$f"; \
 	done;
 
 	# Neovim
 	mkdir -p "${CONFIG_HOME}/nvim"
 
-	for file in $(shell find "${CURDIR}/nvim" -type f -maxdepth 1 -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
-		ln -sfn $$file "${CONFIG_HOME}/nvim/$$f"; \
+	find "${CURDIR}/nvim" -type f -maxdepth 1 -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
+		ln -sfn "$$file" "${CONFIG_HOME}/nvim/$$f"; \
 	done;
 
-	for dir in $(shell find "${CURDIR}/nvim" -type d -not -name "nvim" -maxdepth 1 ); do \
-		d=$$(basename $$dir); \
-		ln -sfn $$dir "${CONFIG_HOME}/nvim/$$d"; \
+	find "${CURDIR}/nvim" -type d -maxdepth 1 -print0 | while IFS= read -r -d '' dir; do \
+		d=$$(basename "$$dir"); \
+		ln -sfn "$$dir" "${CONFIG_HOME}/nvim/$$d"; \
 	done;
 
 .PHONY: misc-remove
 misc-remove:
-	for file in $(shell find "${CURDIR}/neofetch" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
+	find "${CURDIR}/neofetch" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
 		if [ -f "${CONFIG_HOME}/neofetch/$$f" ]; then \
 			rm "${CONFIG_HOME}/neofetch/$$f"; \
 		fi; \
 	done;
 
-	for file in $(shell find "${CURDIR}/tmux" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
+	find "${CURDIR}/tmux" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
 		if [ -f "${CONFIG_HOME}/tmux/$$f" ]; then \
 			rm "${CONFIG_HOME}/tmux/$$f"; \
+		fi; \
+	done;
+
+	find "${CURDIR}/nvim" -type f -maxdepth 1 -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
+		if [ -f "${CONFIG_HOME}/nvim/$$f" ]; then \
+			rm "${CONFIG_HOME}/nvim/$$f"; \
+		fi; \
+	done;
+
+	find "${CURDIR}/tmux" -type d -maxdepth 1 -print0 | while IFS= read -r -d '' dir; do \
+		d=$$(basename "$$dir"); \
+		if [ -f "${CONFIG_HOME}/nvim/$$d" ]; then \
+			rm "${CONFIG_HOME}/nvim/$$d"; \
 		fi; \
 	done;
 
@@ -379,9 +397,9 @@ misc-remove:
 pictures: ## Installs sample picture and settings
 	mkdir -p "${HOME}/Pictures";
 
-	for file in $(shell find "${CURDIR}/pictures" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
-		ln -sfn $$file "${HOME}/Pictures/$$f"; \
+	find "${CURDIR}/pictures" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
+		ln -sfn "$$file" "${HOME}/Pictures/$$f"; \
 	done;
 
 	# ln -snf "${CURDIR}/central-park.jpg" "${HOME}/Pictures/central-park.jpg";
@@ -392,8 +410,8 @@ pictures-remove:
 	# 	rm "${HOME}/Pictures/central-park.jpg"; \
 	# fi;
 
-	for file in $(shell find "${CURDIR}/pictures" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
+	find "${CURDIR}/pictures" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
 		if [ -f "${HOME}/Pictures/$$f" ]; then \
 			rm "${HOME}/Pictures/$$f"; \
 		fi; \
@@ -401,15 +419,15 @@ pictures-remove:
 
 .PHONY: python
 python:
-	for file in $(shell find "${CURDIR}/python" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
-		ln -sfn $$file "${HOME}/$$f"; \
+	find "${CURDIR}/python" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
+		ln -sfn "$$file" "${HOME}/$$f"; \
 	done;
 
 .PHONY: python-remove
 python-remove:
-	for file in $(shell find "${CURDIR}/python" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
+	find "${CURDIR}/python" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
 		if [ -f "${HOME}/$$f" ]; then \
 			rm "${HOME}/$$f"; \
 		fi; \
@@ -419,13 +437,13 @@ python-remove:
 synology: ## Link Synology files
 	for d in ~/.SynologyDrive/data/session/*/conf; do \
 		if [ -f "$$d" ]; then \
-			ln -sfn ${CURDIR}/synology/drive_default_blacklist.filter $$d/blacklist.filter; \
+			ln -sfn "${CURDIR}/synology/drive_default_blacklist.filter" "$$d/blacklist.filter"; \
 		fi; \
 	done;
 
 	for d in ~/.SynologyDrive/SynologyDrive.app/Contents/Resources/conf; do \
 		if [ -f "$$d" ]; then \
-			ln -sfn ${CURDIR}/synology/drive_global_blacklist.filter $$d/blacklist.filter; \
+			ln -sfn "${CURDIR}/synology/drive_global_blacklist.filter" "$$d/blacklist.filter"; \
 		fi; \
 	done;
 
@@ -441,34 +459,34 @@ synology-remove:
 
 .PHONY: usr
 usr: ## Installs the usr directory files.
-	for file in $(shell find "${CURDIR}/usr" -type f -not -name ".*.swp"); do \
-		f=$$(echo $$file | sed -e 's|"${CURDIR}"||'); \
-		sudo mkdir -p $$(dirname $$f); \
-		sudo ln -f $$file $$f; \
+	find "${CURDIR}/usr" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(echo "$$file" | sed -e 's|"${CURDIR}"||'); \
+		sudo mkdir -p $$(dirname "$$f"); \
+		sudo ln -f "$$file" "$$f"; \
 	done;
 
 .PHONY: usr-remove
 usr-remove:
-	for file in $(shell find "${CURDIR}/usr" -type f -not -name ".*.swp"); do \
-		f=$$(echo $$file | sed -e 's|"${CURDIR}"||'); \
-		rm $$(dirname $$f); \
+	find "${CURDIR}/usr" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(echo "$$file" | sed -e 's|"${CURDIR}"||'); \
+		rm $$(dirname "$$f"); \
 		rm $$f; \
 	done;
 
 .PHONY: vscode
 vscode: ## Installs VSCode related config files
-	for file in $(shell find "${CURDIR}/vscode" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
+	find "${CURDIR}/vscode" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
 		if [ -d "${HOME}/Library/Application Support/Code/User" ]; then \
-			ln -sfn $$file "${HOME}/Library/Application Support/Code/User/$$f"; \
+			ln -sfn "$$file" "${HOME}/Library/Application Support/Code/User/$$f"; \
 		fi; \
 	done;
 	echo "vscode done"
 
 .PHONY: vscode-remove
 vscode-remove:
-	for file in $(shell find "${CURDIR}/vscode" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
+	find "${CURDIR}/vscode" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
 		if [ -d "${HOME}/Library/Application Support/Code/User" ]; then \
 			if [ -f "${HOME}/Library/Application Support/Code/User/$$f" ]; then \
 				rm "${HOME}/Library/Application Support/Code/User/$$f"; \
@@ -478,18 +496,19 @@ vscode-remove:
 
 .PHONY: zsh
 zsh:
-	for file in $(shell find "${CURDIR}/zsh" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
-		ln -sfn $$file "${HOME}/$$f"; \
+	find "${CURDIR}/zsh" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
+		ln -sfn "$$file" "${HOME}/$$f"; \
 	done;
 
 .PHONY: zsh-remove
 zsh-remove:
-	for file in $(shell find "${CURDIR}/zsh" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
+	find "${CURDIR}/zsh" -type f -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
+		echo "Processing file: ${HOME}/$$f"; \
 		if [ -f "${HOME}/$$f" ]; then \
-			rm "${HOME}/$$f"; \
-		fi; \
+        	rm "${HOME}/$$f"; \
+    	fi; \
 	done;
 
 .PHONY: zsh-addons
