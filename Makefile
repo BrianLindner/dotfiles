@@ -151,7 +151,7 @@ bash-remove:
 
 .PHONY: bin
 bin: ## Installs the bin directory files.
-	# add aliases for things in bin
+	# add aliases for items in bin
 	for file in $(shell find "${CURDIR}/bin" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
 		f=$$(basename $$file); \
 		sudo ln -sf $$file /usr/local/bin/$$f; \
@@ -159,7 +159,7 @@ bin: ## Installs the bin directory files.
 
 .PHONY: bin-remove
 bin-remove:
-	# add aliases for things in bin
+	# remove aliases for items in bin
 	for file in $(shell find "${CURDIR}/bin" -type f -not -name "*-backlight" -not -name ".*.swp"); do \
 		f=$$(basename $$file); \
 		if [ -L /usr/local/bin/$$f; ]; then \

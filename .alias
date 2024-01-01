@@ -177,6 +177,10 @@ alias iptlist='sudo /sbin/iptables -L -n -v --line-numbers' # display all lines 
 alias iptlistin='sudo /sbin/iptables -L INPUT -n -v --line-numbers' # display all INCOMING rules in iptables
 alias iptlistout='sudo /sbin/iptables -L OUTPUT -n -v --line-numbers' # display all OUTGOING rules in iptables
 
+# Journal maintenance
+alias journalclean='sudo ournalctl --rotate'
+alias journalprune='sudo journalctl --vacuum-time=3d'
+
 # macOS Specific additions
 if [[ $OSTYPE == darwin* ]]; then
   for file in ~/.{macos_alias,macos_exports,macos_path}; do
