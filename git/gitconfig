@@ -1,11 +1,15 @@
 
 # [includeIf "gitdir:~/"]
 #   	path = .gitconfig-personal
-[includeIf "gitdir:~/code/personal/"]
-  path = ~/.gitconfig_personal
+[includeIf "gitdir:~/Dev Projects/GitHub/"]
+  path = ~/.gitconfig_personal_github
 [includeIf "gitdir:~/Projects/GitHub/"]
   path = ~/.gitconfig_personal_github
   # path = ~/SynologyDrive/Projects/dotfiles/git/config-profiles/gitconfig-personal-github
+[includeIf "gitdir:~/Documents/1 Projects/"]
+  path = ~/.gitconfig_personal_github
+[includeIf "gitdir:~/code/personal/"]
+  path = ~/.gitconfig_personal
 [includeIf "gitdir:~/code/professional/"]
 	path = ~/.gitconfig_professional
 
