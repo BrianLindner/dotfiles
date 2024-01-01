@@ -20,7 +20,7 @@ install-shell-files: bash zsh zsh-addons alias_path
 install-app-files: bin usr python
 
 .PHONY: install-config-files
-install-config-files: config docker git gpg misc vscode
+install-config-files: config docker git gpg misc neovim vscode
 
 .PHONY: install-util-files
 install-util-files: fonts pictures
@@ -35,7 +35,7 @@ remove-shell-files: bash-remove zsh-remove zsh-addons-remove alias_path-remove
 remove-app-files: bin-remove usr-remove python-remove
 
 .PHONY: remove-config-files
-remove-config-files: config-remove docker-remove git-remove gpg-remove misc-remove vscode-remove
+remove-config-files: config-remove docker-remove git-remove gpg-remove misc-remove neovim-remove vscode-remove
 
 .PHONY: remove-util-files
 remove-util-files: fonts-remove  pictures-remove
@@ -129,7 +129,7 @@ alias_path-remove:
 
 .PHONY: bash
 bash:
-	find "${CURDIR}/bash" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/bash" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		ln -sfn "$$file" "${HOME}/$$f"; \
 	done;
@@ -138,7 +138,7 @@ bash:
 
 .PHONY: bash-remove
 bash-remove:
-	find "${CURDIR}/bash" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/bash" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -L "${HOME}/$$f" ]; then \
 			rm "${HOME}/$$f"; \
@@ -152,7 +152,7 @@ bash-remove:
 .PHONY: bin
 bin: ## Installs the bin directory files.
 	# add aliases for items in bin
-	find "${CURDIR}/bin" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/bin" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		sudo ln -sf "$$file" "/usr/local/bin/$$f"; \
 	done;
@@ -160,7 +160,7 @@ bin: ## Installs the bin directory files.
 .PHONY: bin-remove
 bin-remove:
 	# remove aliases for items in bin
-	find "${CURDIR}/bin" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/bin" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -L "/usr/local/bin/$$f"; ]; then \
 			rm "/usr/local/bin/$$f"; \
@@ -173,7 +173,7 @@ config: ## Installs the base config dotfiles.
 	mkdir -p "${HOME}/.local/share";
 
 #	add aliases for dotfiles
-	find "${CURDIR}" -maxdepth 1 -type f -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".pytest_cache" -not -name ".DS_Store" -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}" -depth 1 -type f -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".pytest_cache" -not -name ".DS_Store" -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		ln -sfn "$$file" "${HOME}/$$f"; \
 	done;
@@ -190,7 +190,7 @@ config-remove:
 	# mkdir -p "${HOME}/.local/share";
 
 #	remove aliases for dotfiles
-	find "${CURDIR}" -maxdepth 1 -type f -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".pytest_cache" -not -name ".DS_Store"-print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}" -depth 1 -type f -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".pytest_cache" -not -name ".DS_Store" -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -f "${HOME}/$$f" ]; then \
 			rm "${HOME}/$$f"; \
@@ -226,7 +226,7 @@ docker-remove:
 .PHONY: etc
 etc: ## Installs the etc directory files.
 	sudo mkdir -p /etc/docker/seccomp
-	find "${CURDIR}/etc" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/etc" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(echo "$$file" | sed -e 's|"${CURDIR}"||'); \
 		sudo mkdir -p $$(dirname "$$f"); \
 		sudo ln -f "$$file" "$$f"; \
@@ -279,7 +279,7 @@ fonts-remove:
 
 .PHONY: git
 git: ## Installs Git config files
-	find "${CURDIR}/git/config_profiles" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/git/config_profiles" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		ln -sfn "$$file" "${HOME}/.$$f"; \
 	done;
@@ -295,7 +295,7 @@ git: ## Installs Git config files
 
 .PHONY: git-remove
 git-remove:
-	find "${CURDIR}/git/config_profiles" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/git/config_profiles" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -f "${HOME}/.$$f" ]; then \
 			rm "${HOME}/.$$f"; \
@@ -315,7 +315,7 @@ gpg: ## Installs GPG config files
 	mkdir -p "${HOME}/.gnupg"
 	chmod 700 "${HOME}/.gnupg"
 
-	find "${CURDIR}/gnupg" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/gnupg" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		ln -sfn "$$file" "${HOME}/.gnupg/$$f"; \
 	done;
@@ -325,7 +325,7 @@ gpg-remove:
 	# gpg --list-keys || true;
 	# mkdir -p "${HOME}/.gnupg" # leave folder as other keys/items may be in use
 
-	find "${CURDIR}/gnupg" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/gnupg" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -f "${HOME}/.gnupg/$$f" ]; then \
 			rm "${HOME}/.gnupg/$$f"; \
@@ -337,7 +337,7 @@ misc:
 	# Neofetch
 	mkdir -p "${CONFIG_HOME}/neofetch"
 
-	find "${CURDIR}/neofetch" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/neofetch" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		ln -sfn "$$file" "${CONFIG_HOME}/neofetch/$$f"; \
 	done;
@@ -345,50 +345,56 @@ misc:
 	# Tmux
 	mkdir -p "${CONFIG_HOME}/tmux"
 
-	find "${CURDIR}/tmux" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/tmux" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		ln -sfn "$$file" "${CONFIG_HOME}/tmux/$$f"; \
 	done;
 
-	# Neovim
-	mkdir -p "${CONFIG_HOME}/nvim"
-
-	find "${CURDIR}/nvim" -type f -maxdepth 1 -print0 | while IFS= read -r -d '' file; do \
-		f=$$(basename "$$file"); \
-		ln -sfn "$$file" "${CONFIG_HOME}/nvim/$$f"; \
-	done;
-
-	find "${CURDIR}/nvim" -type d -maxdepth 1 -print0 | while IFS= read -r -d '' dir; do \
-		d=$$(basename "$$dir"); \
-		ln -sfn "$$dir" "${CONFIG_HOME}/nvim/$$d"; \
-	done;
-
 .PHONY: misc-remove
 misc-remove:
-	find "${CURDIR}/neofetch" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/neofetch" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -f "${CONFIG_HOME}/neofetch/$$f" ]; then \
 			rm "${CONFIG_HOME}/neofetch/$$f"; \
 		fi; \
 	done;
 
-	find "${CURDIR}/tmux" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/tmux" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -f "${CONFIG_HOME}/tmux/$$f" ]; then \
 			rm "${CONFIG_HOME}/tmux/$$f"; \
 		fi; \
 	done;
 
-	find "${CURDIR}/nvim" -type f -maxdepth 1 -print0 | while IFS= read -r -d '' file; do \
+.PHONY: neovim
+neovim: ## Installs NeoVim config files
+	# Neovim
+	mkdir -p "${CONFIG_HOME}/nvim"
+
+	find "${CURDIR}/nvim" -depth 1 -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
+		ln -sfn "$$file" "${CONFIG_HOME}/nvim/$$f"; \
+	done;
+
+	find "${CURDIR}/nvim" -depth 1 -type d -print0 | while IFS= read -r -d '' dir; do \
+		d=$$(basename "$$dir"); \
+		ln -sfn "$$dir" "${CONFIG_HOME}/nvim/$$d"; \
+	done;
+
+.PHONY: neovim-remove
+neovim-remove:
+	find "${CURDIR}/nvim" -depth 1 -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -f "${CONFIG_HOME}/nvim/$$f" ]; then \
 			rm "${CONFIG_HOME}/nvim/$$f"; \
 		fi; \
 	done;
 
-	find "${CURDIR}/tmux" -type d -maxdepth 1 -print0 | while IFS= read -r -d '' dir; do \
+	find "${CURDIR}/nvim" -depth 1 -type d -print0 | while IFS= read -r -d '' dir; do \
 		d=$$(basename "$$dir"); \
-		if [ -f "${CONFIG_HOME}/nvim/$$d" ]; then \
+		echo "${CONFIG_HOME}/nvim/$$d"; \
+		if [ -d "${CONFIG_HOME}/nvim/$$d" ]; then \
+			echo "rm $$d"; \
 			rm "${CONFIG_HOME}/nvim/$$d"; \
 		fi; \
 	done;
@@ -397,7 +403,7 @@ misc-remove:
 pictures: ## Installs sample picture and settings
 	mkdir -p "${HOME}/Pictures";
 
-	find "${CURDIR}/pictures" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/pictures" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		ln -sfn "$$file" "${HOME}/Pictures/$$f"; \
 	done;
@@ -410,7 +416,7 @@ pictures-remove:
 	# 	rm "${HOME}/Pictures/central-park.jpg"; \
 	# fi;
 
-	find "${CURDIR}/pictures" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/pictures" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -f "${HOME}/Pictures/$$f" ]; then \
 			rm "${HOME}/Pictures/$$f"; \
@@ -419,14 +425,14 @@ pictures-remove:
 
 .PHONY: python
 python:
-	find "${CURDIR}/python" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/python" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		ln -sfn "$$file" "${HOME}/$$f"; \
 	done;
 
 .PHONY: python-remove
 python-remove:
-	find "${CURDIR}/python" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/python" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -f "${HOME}/$$f" ]; then \
 			rm "${HOME}/$$f"; \
@@ -459,7 +465,7 @@ synology-remove:
 
 .PHONY: usr
 usr: ## Installs the usr directory files.
-	find "${CURDIR}/usr" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/usr" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(echo "$$file" | sed -e 's|"${CURDIR}"||'); \
 		sudo mkdir -p $$(dirname "$$f"); \
 		sudo ln -f "$$file" "$$f"; \
@@ -467,7 +473,7 @@ usr: ## Installs the usr directory files.
 
 .PHONY: usr-remove
 usr-remove:
-	find "${CURDIR}/usr" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/usr" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(echo "$$file" | sed -e 's|"${CURDIR}"||'); \
 		rm $$(dirname "$$f"); \
 		rm $$f; \
@@ -475,17 +481,16 @@ usr-remove:
 
 .PHONY: vscode
 vscode: ## Installs VSCode related config files
-	find "${CURDIR}/vscode" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/vscode" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -d "${HOME}/Library/Application Support/Code/User" ]; then \
 			ln -sfn "$$file" "${HOME}/Library/Application Support/Code/User/$$f"; \
 		fi; \
 	done;
-	echo "vscode done"
 
 .PHONY: vscode-remove
 vscode-remove:
-	find "${CURDIR}/vscode" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/vscode" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -d "${HOME}/Library/Application Support/Code/User" ]; then \
 			if [ -f "${HOME}/Library/Application Support/Code/User/$$f" ]; then \
@@ -496,14 +501,14 @@ vscode-remove:
 
 .PHONY: zsh
 zsh:
-	find "${CURDIR}/zsh" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/zsh" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		ln -sfn "$$file" "${HOME}/$$f"; \
 	done;
 
 .PHONY: zsh-remove
 zsh-remove:
-	find "${CURDIR}/zsh" -type f -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/zsh" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		echo "Processing file: ${HOME}/$$f"; \
 		if [ -f "${HOME}/$$f" ]; then \
