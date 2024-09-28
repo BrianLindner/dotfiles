@@ -9,12 +9,12 @@ export SHELL="$shell";
 export TERMINAL="urxvt";
 
 # Larger bash history (allow 32³ entries; default is 500)
-export HISTSIZE=50000000;
-export HISTFILESIZE=$HISTSIZE;
+export HISTSIZE=100000;
+export HISTFILESIZE=10000000;
 # dont put duplicate lines, or lines starting with a space into history
-export HISTCONTROL=ignoreboth; # ignoredups;
+export HISTCONTROL=ignoredups; # ignoredups;
 # format the history output
-export HISTTIMEFORMAT="%Y-%m-%d %T "
+export HISTTIMEFORMAT="[%F %T] "
 # Make some commands not show up in history
 export HISTIGNORE=" *:ls:cd:cd -:pwd:exit:date:* --help:* -h:pony:pony add *:pony update *:pony save *:pony ls:pony ls *";
 
