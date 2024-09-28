@@ -151,8 +151,14 @@ bash-remove:
 
 .PHONY: bin
 bin: ## Installs the bin directory files.
+	mkdir -p "${HOME}/bin"
 	# add aliases for items in bin
 	find "${CURDIR}/bin" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
+		f=$$(basename "$$file"); \
+		ln -sf "$$file" "${HOME}/bin/$$f"; \
+	done;
+
+	find "${CURDIR}/usr/local/bin" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		sudo ln -sf "$$file" "/usr/local/bin/$$f"; \
 	done;
@@ -347,7 +353,9 @@ misc:
 
 	find "${CURDIR}/tmux" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
-		ln -sfn "$$file" "${CONFIG_HOME}/tmux/$$f"; \
+		# ln -sfn "$$file" "${CONFIG_HOME}/tmux/$$f"; \
+		ln -sfn "$$file" "${HOME}/$$f"; \
+
 	done;
 
 .PHONY: misc-remove
@@ -363,6 +371,7 @@ misc-remove:
 		f=$$(basename "$$file"); \
 		if [ -f "${CONFIG_HOME}/tmux/$$f" ]; then \
 			rm "${CONFIG_HOME}/tmux/$$f"; \
+			rm "${HOME}/$$f"; \
 		fi; \
 	done;
 
@@ -403,7 +412,7 @@ neovim-remove:
 pictures: ## Installs sample picture and settings
 	mkdir -p "${HOME}/Pictures";
 
-	find "${CURDIR}/pictures" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/pictures" -type f ! -name .DS_Store ! -name .gitkeep -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		ln -sfn "$$file" "${HOME}/Pictures/$$f"; \
 	done;
