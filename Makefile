@@ -185,7 +185,7 @@ config: ## Installs the base config dotfiles.
 	mkdir -p "${HOME}/.local/share";
 
 #	add aliases for dotfiles
-	find "${CURDIR}" -depth 1 -type f -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".pytest_cache" -not -name ".DS_Store" -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}" -maxdepth 1 -type f -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".pytest_cache" -not -name ".DS_Store" -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		ln -sfn "$$file" "${HOME}/$$f"; \
 	done;
@@ -203,7 +203,7 @@ config-remove:
 	# mkdir -p "${HOME}/.local/share";
 
 #	remove aliases for dotfiles
-	find "${CURDIR}" -depth 1 -type f -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".pytest_cache" -not -name ".DS_Store" -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}" -maxdepth 1 -type f -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".pytest_cache" -not -name ".DS_Store" -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -f "${HOME}/$$f" ]; then \
 			rm "${HOME}/$$f"; \
@@ -397,12 +397,12 @@ neovim: ## Installs NeoVim config files
 	# neovim
 	mkdir -p "${CONFIG_HOME}/nvim"
 
-	find "${CURDIR}/nvim" -depth 1 -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/nvim" -maxdepth 1 -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		ln -sfn "$$file" "${CONFIG_HOME}/nvim/$$f"; \
 	done;
 
-	find "${CURDIR}/nvim" -depth 1 -type d -print0 | while IFS= read -r -d '' dir; do \
+	find "${CURDIR}/nvim" -maxdepth 1 -type d -print0 | while IFS= read -r -d '' dir; do \
 		d=$$(basename "$$dir"); \
 		ln -sfn "$$dir" "${CONFIG_HOME}/nvim/$$d"; \
 	done;
@@ -410,14 +410,14 @@ neovim: ## Installs NeoVim config files
 .PHONY: neovim-remove
 neovim-remove:
 	# neovim-remove
-	find "${CURDIR}/nvim" -depth 1 -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
+	find "${CURDIR}/nvim" -maxdepth 1 -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -f "${CONFIG_HOME}/nvim/$$f" ]; then \
 			rm "${CONFIG_HOME}/nvim/$$f"; \
 		fi; \
 	done;
 
-	find "${CURDIR}/nvim" -depth 1 -type d -print0 | while IFS= read -r -d '' dir; do \
+	find "${CURDIR}/nvim" -maxdepth 1 -type d -print0 | while IFS= read -r -d '' dir; do \
 		d=$$(basename "$$dir"); \
 		echo "${CONFIG_HOME}/nvim/$$d"; \
 		if [ -d "${CONFIG_HOME}/nvim/$$d" ]; then \
