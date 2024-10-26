@@ -52,6 +52,7 @@ distcheck: check
 
 .PHONY: cleanup
 cleanup: ## Remove legacy files not used by current configuration
+	# cleanup
 #	if [ -L "${HOME}/.alias" ]; then \
 #		rm "${HOME}/.alias"; \
 #	fi;
@@ -129,6 +130,7 @@ alias_path-remove:
 
 .PHONY: bash
 bash:
+	# bash
 	find "${CURDIR}/bash" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		ln -sfn "$$file" "${HOME}/$$f"; \
@@ -138,6 +140,7 @@ bash:
 
 .PHONY: bash-remove
 bash-remove:
+	# bash-remove
 	find "${CURDIR}/bash" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -L "${HOME}/$$f" ]; then \
@@ -151,6 +154,7 @@ bash-remove:
 
 .PHONY: bin
 bin: ## Installs the bin directory files.
+	# bin
 	mkdir -p "${HOME}/bin"
 	# add aliases for items in bin
 	find "${CURDIR}/bin" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
@@ -165,6 +169,7 @@ bin: ## Installs the bin directory files.
 
 .PHONY: bin-remove
 bin-remove:
+	# bin-remove
 	# remove aliases for items in bin
 	find "${CURDIR}/bin" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
@@ -175,6 +180,7 @@ bin-remove:
 
 .PHONY: config
 config: ## Installs the base config dotfiles.
+	# config
 	mkdir -p "${CONFIG_HOME}";
 	mkdir -p "${HOME}/.local/share";
 
@@ -192,6 +198,7 @@ config: ## Installs the base config dotfiles.
 
 .PHONY: config-remove
 config-remove:
+	# config-remove
 	# mkdir -p "${CONFIG_HOME}";
 	# mkdir -p "${HOME}/.local/share";
 
@@ -213,6 +220,7 @@ config-remove:
 
 .PHONY: docker
 docker:
+	# docker
 	if [ -f "${CURDIR}/docker/.docker-alias" ]; then \
 		ln -snf "${CURDIR}/docker/.docker-alias" "${HOME}/.docker-alias"; \
 	fi;
@@ -222,6 +230,7 @@ docker:
 
 .PHONY: docker-remove
 docker-remove:
+	# docker-remove
 	if [ -f "${HOME}/.docker-alias" ]; then \
 		rm "${HOME}/.docker-alias"; \
 	fi;
@@ -231,6 +240,7 @@ docker-remove:
 
 .PHONY: etc
 etc: ## Installs the etc directory files.
+	# etc
 	sudo mkdir -p /etc/docker/seccomp
 	find "${CURDIR}/etc" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(echo "$$file" | sed -e 's|"${CURDIR}"||'); \
@@ -253,6 +263,7 @@ etc: ## Installs the etc directory files.
 
 .PHONY: fonts
 fonts: ## Installs fonts and related items.
+	# fonts
 	ln -snf "${CURDIR}/fonts/fonts" "${HOME}/.local/share/fonts";
 	ln -snf "${CURDIR}/fonts/fonts" "${HOME}/.fonts";
 
@@ -267,6 +278,7 @@ fonts: ## Installs fonts and related items.
 
 .PHONY: fonts-remove
 fonts-remove:
+	# fonts-remove
 	if [ -d "${HOME}/.local/share/fonts" ]; then \
 		rm "${HOME}/.local/share/fonts"; \
 	fi;
@@ -285,6 +297,7 @@ fonts-remove:
 
 .PHONY: git
 git: ## Installs Git config files
+	# git
 	find "${CURDIR}/git/config_profiles" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		ln -sfn "$$file" "${HOME}/.$$f"; \
@@ -301,6 +314,7 @@ git: ## Installs Git config files
 
 .PHONY: git-remove
 git-remove:
+	# git-remove
 	find "${CURDIR}/git/config_profiles" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -f "${HOME}/.$$f" ]; then \
@@ -317,6 +331,7 @@ git-remove:
 
 .PHONY: gpg
 gpg: ## Installs GPG config files
+	# gpg
 	# gpg --list-keys || true;
 	mkdir -p "${HOME}/.gnupg"
 	chmod 700 "${HOME}/.gnupg"
@@ -328,6 +343,7 @@ gpg: ## Installs GPG config files
 
 .PHONY: gpg-remove
 gpg-remove:
+	# gpg-remove
 	# gpg --list-keys || true;
 	# mkdir -p "${HOME}/.gnupg" # leave folder as other keys/items may be in use
 
@@ -340,6 +356,7 @@ gpg-remove:
 
 .PHONY: misc
 misc:
+	# misc
 	# Neofetch
 	mkdir -p "${CONFIG_HOME}/neofetch"
 
@@ -360,6 +377,7 @@ misc:
 
 .PHONY: misc-remove
 misc-remove:
+	# misc-remove
 	find "${CURDIR}/neofetch" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -f "${CONFIG_HOME}/neofetch/$$f" ]; then \
@@ -377,7 +395,7 @@ misc-remove:
 
 .PHONY: neovim
 neovim: ## Installs NeoVim config files
-	# Neovim
+	# neovim
 	mkdir -p "${CONFIG_HOME}/nvim"
 
 	find "${CURDIR}/nvim" -depth 1 -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
@@ -392,6 +410,7 @@ neovim: ## Installs NeoVim config files
 
 .PHONY: neovim-remove
 neovim-remove:
+	# neovim-remove
 	find "${CURDIR}/nvim" -depth 1 -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -f "${CONFIG_HOME}/nvim/$$f" ]; then \
@@ -410,6 +429,7 @@ neovim-remove:
 
 .PHONY: pictures
 pictures: ## Installs sample picture and settings
+	# pictures
 	mkdir -p "${HOME}/Pictures";
 
 	find "${CURDIR}/pictures" -type f ! -name .DS_Store ! -name .gitkeep -print0 | while IFS= read -r -d '' file; do \
@@ -421,6 +441,7 @@ pictures: ## Installs sample picture and settings
 
 .PHONY: pictures-remove
 pictures-remove:
+	# pictures-remove
 	# if [ -f "${HOME}/Pictures/central-park.jpg" ]; then \
 	# 	rm "${HOME}/Pictures/central-park.jpg"; \
 	# fi;
@@ -434,6 +455,7 @@ pictures-remove:
 
 .PHONY: python
 python:
+	# python
 	find "${CURDIR}/python" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		ln -sfn "$$file" "${HOME}/$$f"; \
@@ -441,6 +463,7 @@ python:
 
 .PHONY: python-remove
 python-remove:
+	# python-remove
 	find "${CURDIR}/python" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -f "${HOME}/$$f" ]; then \
@@ -450,6 +473,7 @@ python-remove:
 
 .PHONY: synology
 synology: ## Link Synology files
+	# synology
 	for d in ~/.SynologyDrive/data/session/*/conf; do \
 		if [ -f "$$d" ]; then \
 			ln -sfn "${CURDIR}/synology/drive_default_blacklist.filter" "$$d/blacklist.filter"; \
@@ -464,6 +488,7 @@ synology: ## Link Synology files
 
 .PHONY: synology-remove
 synology-remove:
+	# synology-remove
 	for f in ~/.SynologyDrive/SynologyDrive.app/Contents/Resources/conf/blacklist.filter; do \
 		rm $$f; \
 	done;
@@ -474,6 +499,7 @@ synology-remove:
 
 .PHONY: usr
 usr: ## Installs the usr directory files.
+	# usr
 	find "${CURDIR}/usr" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(echo "$$file" | sed -e 's|"${CURDIR}"||'); \
 		sudo mkdir -p $$(dirname "$$f"); \
@@ -482,6 +508,7 @@ usr: ## Installs the usr directory files.
 
 .PHONY: usr-remove
 usr-remove:
+	# usr-remove
 	find "${CURDIR}/usr" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(echo "$$file" | sed -e 's|"${CURDIR}"||'); \
 		rm $$(dirname "$$f"); \
@@ -490,6 +517,7 @@ usr-remove:
 
 .PHONY: vscode
 vscode: ## Installs VSCode related config files
+	# vscode
 	find "${CURDIR}/vscode" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -d "${HOME}/Library/Application Support/Code/User" ]; then \
@@ -499,6 +527,7 @@ vscode: ## Installs VSCode related config files
 
 .PHONY: vscode-remove
 vscode-remove:
+	# vscode-remove
 	find "${CURDIR}/vscode" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		if [ -d "${HOME}/Library/Application Support/Code/User" ]; then \
@@ -510,6 +539,7 @@ vscode-remove:
 
 .PHONY: zsh
 zsh:
+	# zsh
 	find "${CURDIR}/zsh" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		ln -sfn "$$file" "${HOME}/$$f"; \
@@ -517,16 +547,18 @@ zsh:
 
 .PHONY: zsh-remove
 zsh-remove:
+	# zsh-remove
 	find "${CURDIR}/zsh" -type f ! -name .DS_Store -print0 | while IFS= read -r -d '' file; do \
 		f=$$(basename "$$file"); \
 		echo "Processing file: ${HOME}/$$f"; \
 		if [ -f "${HOME}/$$f" ]; then \
-        	rm "${HOME}/$$f"; \
-    	fi; \
+			rm "${HOME}/$$f"; \
+		fi; \
 	done;
 
 .PHONY: zsh-addons
 zsh-addons:
+# # zsh-addons
 #	# echo ${ZSH}
 #	# echo $(ZSH_CUSTOM)/dir
 #	# echo ${HOME}/.oh-my-zsh/custom/dir
@@ -558,6 +590,7 @@ test: shellcheck ## Runs all the tests on the files in the repository.
 
 .PHONY: shellcheck
 shellcheck: ## Runs the shellcheck tests on the scripts.
+	# shellcheck
 	docker run --rm -i $(DOCKER_FLAGS) \
 		--name df-shellcheck \
 		-v ${CURDIR}:/usr/src:ro \
