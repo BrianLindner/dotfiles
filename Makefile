@@ -372,7 +372,6 @@ misc:
 		f=$$(basename "$$file"); \
 		# ln -sfn "$$file" "${CONFIG_HOME}/tmux/$$f"; \
 		ln -sfn "$$file" "${HOME}/$$f"; \
-
 	done;
 
 .PHONY: misc-remove
