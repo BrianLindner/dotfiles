@@ -28,3 +28,36 @@ if [[ -n $SSH_CONNECTION ]]; then
 else
   export EDITOR='nano'
 fi
+
+# if [[ -n "$SSH_CONNECTION" ]]; then
+#   # Append this host to the existing chain, or start fresh
+#   if [[ -n "$SSH_CONNECTION_CHAIN" ]]; then
+#     export SSH_CONNECTION_CHAIN="${SSH_CONNECTION_CHAIN}→$(hostname -s)"
+#   else
+#     local client="${SSH_CLIENT%% *}"
+#     [[ -z "$client" ]] && client="Local"
+#     export SSH_CONNECTION_CHAIN="${client}→$(hostname -s)"
+#   fi
+# fi
+
+# Build/extend the SSH connection chain on interactive SSH sessions
+if [[ -n "$SSH_CONNECTION" ]]; then
+  if [[ -n "$SSH_CONNECTION_CHAIN" ]]; then
+    # Not first hop: append this host
+    export SSH_CONNECTION_CHAIN="${SSH_CONNECTION_CHAIN}→$(hostname -s)"
+  else
+    # First hop on this chain: seed from a friendly origin label if provided,
+    # else attempt reverse-lookup of client IP, else use the raw IP.
+    origin="${SSH_ORIGIN_LABEL}"
+
+    if [[ -z "$origin" ]]; then
+      client_ip="${SSH_CLIENT%% *}"
+      # Try to resolve client IP -> short hostname (Linux/BSD)
+      origin="$(getent hosts "$client_ip" 2>/dev/null | awk '{print $2}' | cut -d. -f1)"
+      [[ -z "$origin" ]] && origin="$(host -W 1 "$client_ip" 2>/dev/null | awk '/pointer/ {print $5}' | sed 's/\.$//' | cut -d. -f1)"
+      [[ -z "$origin" ]] && origin="$client_ip"
+    fi
+
+    export SSH_CONNECTION_CHAIN="${origin}→$(hostname -s)"
+  fi
+fi

@@ -36,12 +36,14 @@
     context
     dir                     # current directory
     vcs                     # git status
+    connection_path
     # =========================[ Line #2 ]=========================
     newline                 # \n
     # virtualenv
     prompt_char           # prompt symbol
 
   )
+
 
   # The list of segments shown on the right. Fill it with less important segments.
   # Right prompt on the last prompt line (where you are typing your commands) gets
@@ -1747,3 +1749,9 @@ typeset -g POWERLEVEL9K_CONFIG_FILE=${${(%):-%x}:a}
 
 (( ${#p10k_config_opts} )) && setopt ${p10k_config_opts[@]}
 'builtin' 'unset' 'p10k_config_opts'
+
+# Custom segment to show SSH connection path
+function prompt_connection_path() {
+  [[ -n "$SSH_CONNECTION_CHAIN" ]] || return
+  p10k segment -t "$SSH_CONNECTION_CHAIN" -f 76 -b 236
+}
