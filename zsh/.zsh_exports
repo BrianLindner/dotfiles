@@ -60,4 +60,17 @@ if [[ -n "$SSH_CONNECTION" ]]; then
 
     export SSH_CONNECTION_CHAIN="${origin}→$(hostname -s)"
   fi
+
+  # ---- Display guard for SSH chain (only show if 3+ nodes) ----
+  # Build SSH_CONNECTION_CHAIN_SHOW only when there are at least 3 nodes
+  # e.g., Laptop→server1→server2. Otherwise, keep it empty so the prompt hides it.
+  if [[ -n "$SSH_CONNECTION_CHAIN" ]]; then
+    typeset -a __chain_nodes
+    __chain_nodes=(${(s:→:)SSH_CONNECTION_CHAIN})
+    if (( ${#__chain_nodes} >= 3 )); then
+      export SSH_CONNECTION_CHAIN_SHOW="$SSH_CONNECTION_CHAIN"
+    else
+      unset SSH_CONNECTION_CHAIN_SHOW
+    fi
+  fi
 fi
