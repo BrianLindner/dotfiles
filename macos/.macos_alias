@@ -59,3 +59,5 @@ alias pubkey="more ~/.ssh/id_ed25519.pub | xclip -selection clipboard | echo '=>
 alias prikey="more ~/.ssh/id_ed25519 | xclip -selection clipboard | echo '=> Private key copied to pasteboard.'"
 
 alias listusers="dscl . list /Users | grep -v '^_'"
+
+alias rsync="/opt/homebrew/bin/rsync -avh --progress"
