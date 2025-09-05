@@ -1,0 +1,9 @@
+#!/bin/zsh
+
+# Ever pasted "$ somecommand" into the terminal and gotten this error?
+# -bash: $: command not found
+
+# Small helper script to avoid common errors with bad copy/paste
+
+print "Quit pasting in commands from the internet, you lazy bum. ( $ "$@" )"
+"$@"
