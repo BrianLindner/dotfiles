@@ -187,3 +187,6 @@
 # large on big repos.
 #[remote "origin"]
 	#fetch = +refs/pull/*/head:refs/remotes/origin/pull/*
+
+[safe]
+  directory = /docker/docker-bench-security
