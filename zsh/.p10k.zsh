@@ -1752,6 +1752,6 @@ typeset -g POWERLEVEL9K_CONFIG_FILE=${${(%):-%x}:a}
 
 # Custom segment to show SSH connection path
 function prompt_connection_path() {
-  [[ -n "$SSH_CONNECTION_CHAIN" ]] || return
+  [[ -n "$SSH_CONNECTION_CHAIN_SHOW" ]] || return
   p10k segment -t "$SSH_CONNECTION_CHAIN_SHOW" -f 76 -b 236
 }
