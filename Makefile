@@ -77,11 +77,11 @@ cleanup: ## Remove legacy files not used by current configuration
 	if [ -L "${HOME}/.zsh-functions" ]; then \
 		rm "${HOME}/.zsh-functions"; \
 	fi;
-	if [ -L "${HOME}/.docker-alias" ]; then \
-		rm "${HOME}/.docker-alias"; \
+	if [ -L "${HOME}/.docker_alias" ]; then \
+		rm "${HOME}/.docker_alias"; \
 	fi;
-	if [ -L "${HOME}/.docker-functions" ]; then \
-		rm "${HOME}/.docker-functions"; \
+	if [ -L "${HOME}/.docker_functions" ]; then \
+		rm "${HOME}/.docker_functions"; \
 	fi;
 
 	if [ -L "${HOME}/.gitconfig-personal" ]; then \
@@ -221,21 +221,21 @@ config-remove:
 .PHONY: docker
 docker:
 	# docker
-	if [ -f "${CURDIR}/docker/.docker-alias" ]; then \
-		ln -snf "${CURDIR}/docker/.docker-alias" "${HOME}/.docker-alias"; \
+	if [ -f "${CURDIR}/docker/.docker_alias" ]; then \
+		ln -snf "${CURDIR}/docker/.docker_alias" "${HOME}/.docker_alias"; \
 	fi;
-	if [ -f "${CURDIR}/docker/.docker-functions" ]; then \
-		ln -snf "${CURDIR}/docker/.docker-functions" "${HOME}/.docker-functions"; \
+	if [ -f "${CURDIR}/docker/.docker_functions" ]; then \
+		ln -snf "${CURDIR}/docker/.docker_functions" "${HOME}/.docker_functions"; \
 	fi;
 
 .PHONY: docker-remove
 docker-remove:
 	# docker-remove
-	if [ -f "${HOME}/.docker-alias" ]; then \
-		rm "${HOME}/.docker-alias"; \
+	if [ -f "${HOME}/.docker_alias" ]; then \
+		rm "${HOME}/.docker_alias"; \
 	fi;
-	if [ -f "${HOME}/.docker-functions" ]; then \
-		rm "${HOME}/.docker-functions"; \
+	if [ -f "${HOME}/.docker_functions" ]; then \
+		rm "${HOME}/.docker_functions"; \
 	fi;
 
 .PHONY: etc
