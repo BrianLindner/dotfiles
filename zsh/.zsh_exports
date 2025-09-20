@@ -29,16 +29,6 @@ else
   export EDITOR='nano'
 fi
 
-# if [[ -n "$SSH_CONNECTION" ]]; then
-#   # Append this host to the existing chain, or start fresh
-#   if [[ -n "$SSH_CONNECTION_CHAIN" ]]; then
-#     export SSH_CONNECTION_CHAIN="${SSH_CONNECTION_CHAIN}→$(hostname -s)"
-#   else
-#     local client="${SSH_CLIENT%% *}"
-#     [[ -z "$client" ]] && client="Local"
-#     export SSH_CONNECTION_CHAIN="${client}→$(hostname -s)"
-#   fi
-# fi
 
 # Build/extend the SSH connection chain on interactive SSH sessions
 if [[ -n "$SSH_CONNECTION" ]]; then
