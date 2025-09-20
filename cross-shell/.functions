@@ -1,0 +1,147 @@
+
+# Linux specific functions, work on both MacOS and Linux; bash and zsh compatible.
+pbcopy() {
+	stdin=$(</dev/stdin);
+	pbcopy="$(which pbcopy)";
+	if [[ -n "$pbcopy" ]]; then
+		echo "$stdin" | "$pbcopy"
+	else
+		echo "$stdin" | xclip -selection clipboard
+	fi
+}
+pbpaste() {
+	pbpaste="$(which pbpaste)";
+	if [[ -n "$pbpaste" ]]; then
+		"$pbpaste"
+	else
+		xclip -selection clipboard
+	fi
+}
+
+function mkcd() {
+  mkdir -p "$@" && cd "$_";
+}
+
+bgnotify_threshold=4
+
+function bgnotify_formatted {
+  ## $1=exit_status, $2=command, $3=elapsed_time
+  [ $1 -eq 0 ] && title="Holy Smokes Batman!" || title="Holy Graf Zeppelin!"
+  bgnotify "$title -- after $3 s" "$2";
+}
+
+
+# REBOT CHECKER
+# ===================== checkreboot (multi-distro + cache) =====================
+# Controls (tweak via environment):
+: "${CHECKREBOOT_CACHE_TTL:=20}"   # seconds to cache; 0 = disable caching
+: "${CHECKREBOOT_CACHE_DIR:=${XDG_CACHE_HOME:-$HOME/.cache}/checkreboot}"
+: "${CHECKREBOOT_FORCE_REFRESH:=}" # "1" or "yes" to bypass cache once
+: "${CHECKREBOOT_CACHE_KEY:=}"     # optional extra key (e.g., container name)
+
+# --- Internal probe: sets CHECKREBOOT_MSG and returns 0 if reboot needed ---
+_checkreboot_probe() {
+  CHECKREBOOT_MSG=""
+  # 1) Quick file flags used by common distros/tools
+  local flags=(
+    /run/reboot-required
+    /var/run/reboot-required
+    /run/reboot-needed
+    /var/run/reboot-needed
+    /run/needrestart/restart-required
+    /var/run/needrestart/restart-required
+  )
+  for f in "${flags[@]}"; do
+    if [ -e "$f" ]; then
+      CHECKREBOOT_MSG="Reboot required (flag: $f)"
+      return 0
+    fi
+  done
+
+  # 2) RHEL/Fedora/Rocky/Alma: needs-restarting -r (from yum/dnf utils)
+  if command -v needs-restarting >/dev/null 2>&1; then
+    if ! needs-restarting -r >/dev/null 2>&1; then
+      CHECKREBOOT_MSG="Reboot required (needs-restarting)"
+      return 0
+    fi
+  fi
+
+  # 3) openSUSE/SLES: zypper needs-rebooting (or heuristic fallback)
+  if command -v zypper >/dev/null 2>&1; then
+    if zypper --non-interactive needs-rebooting >/dev/null 2>&1; then
+      if zypper --non-interactive needs-rebooting; then
+        CHECKREBOOT_MSG="Reboot required (zypper needs-rebooting)"
+        return 0
+      fi
+    else
+      # Heuristic: processes holding deleted files usually implies restart/reboot
+      if zypper ps -s 2>/dev/null | grep -qE 'del|deleted'; then
+        CHECKREBOOT_MSG="Reboot likely (zypper ps shows deleted in-use files)"
+        return 0
+      fi
+    fi
+  fi
+
+  # 4) Kernel mismatch: newer kernel installed than running
+  if [ -d /lib/modules ]; then
+    local running latest
+    running="$(uname -r 2>/dev/null)"
+    latest="$(ls -1 /lib/modules 2>/dev/null | sort -V | tail -n1)"
+    if [ -n "$running" ] && [ -n "$latest" ] && [ "$latest" != "$running" ]; then
+      CHECKREBOOT_MSG="Reboot required (running kernel $running, latest installed $latest)"
+      return 0
+    fi
+  fi
+
+  CHECKREBOOT_MSG="No reboot required"
+  return 1
+}
+
+# --- Public function: exit 0 if reboot needed, 1 otherwise; --print prints msg ---
+check_reboot() {
+  # Per-host (and optional key) cache
+  local host key cache_file tmp_file now ttl
+  host="$(hostname -f 2>/dev/null || hostname)"
+  key="${CHECKREBOOT_CACHE_KEY:+.${CHECKREBOOT_CACHE_KEY}}"
+  cache_file="${CHECKREBOOT_CACHE_DIR}/${host}${key}.cache"
+  ttl="${CHECKREBOOT_CACHE_TTL:-0}"
+  now="$(date +%s)"
+
+  # Try cache unless forced refresh
+  if [ -z "$CHECKREBOOT_FORCE_REFRESH" ] || { [ "$CHECKREBOOT_FORCE_REFRESH" != "1" ] && [ "$CHECKREBOOT_FORCE_REFRESH" != "yes" ]; }; then
+    if [ "$ttl" -gt 0 ] && [ -r "$cache_file" ]; then
+      # shellcheck disable=SC1090
+      . "$cache_file" 2>/dev/null || true
+      if [ -n "$TS" ] && [ $((now - TS)) -lt "$ttl" ] && [ -n "$REBOOT_STATUS" ]; then
+        if [ "$1" = "--print" ] && [ -n "$MSG" ]; then printf '%s\n' "$MSG"; fi
+        return "$REBOOT_STATUS"
+      fi
+    fi
+  fi
+
+  # Probe fresh
+  local reboot_status msg
+  if _checkreboot_probe; then
+    reboot_status=0
+  else
+    reboot_status=1
+  fi
+  msg="$CHECKREBOOT_MSG"
+
+  # Write cache atomically if enabled
+  if [ "$ttl" -gt 0 ]; then
+    mkdir -p "$CHECKREBOOT_CACHE_DIR" 2>/dev/null || true
+    tmp_file="${cache_file}.$$.$RANDOM.tmp"
+    {
+      printf 'TS=%s\n' "$now"
+      printf 'REBOOT_STATUS=%s\n' "$reboot_status"
+      # Single-line message; %q is safe in bash/zsh
+      printf 'MSG=%q\n' "$msg"
+    } >"$tmp_file" 2>/dev/null && mv -f "$tmp_file" "$cache_file" 2>/dev/null || true
+  fi
+
+  [ "$1" = "--print" ] && printf '%s\n' "$msg"
+  return "$reboot_status"
+}
+# ============================================================================
+# End of checkreboot

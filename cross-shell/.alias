@@ -55,6 +55,12 @@ alias nowtime='date +"%T"' #current time in 24hrs format as HH:MM:SS
 alias nowdate='date +"%d-%m-%Y"' #current date in format dd-MM-YY
 alias week='date +%V' # Get week number
 
+# check for updates
+alias checkupdate='sudo apt update && sudo apt -s upgrade | grep -i "upgraded,"'
+
+# alias checkreboot='if [ -f /var/run/reboot-required ]; then echo "Reboot required"; else echo "No reboot required"; fi'
+alias checkreboot='check_reboot --print'
+
 # Tmux
 alias tn="tmux new -s $(pwd | sed 's/.*\///g')"
 
@@ -181,8 +187,12 @@ alias iptlistin='sudo /sbin/iptables -L INPUT -n -v --line-numbers' # display al
 alias iptlistout='sudo /sbin/iptables -L OUTPUT -n -v --line-numbers' # display all OUTGOING rules in iptables
 
 # Journal maintenance
-alias journalclean='sudo ournalctl --rotate'
+alias journalclean='sudo journalctl --rotate'
 alias journalprune='sudo journalctl --vacuum-time=3d'
+
+alias ssh_chain="print -r -- 'CONNECTION CHAIN: $SSH_CONNECTION_CHAIN'; \
+              print -r -- 'CONNECTION CHAIN (Show): $SSH_CONNECTION_CHAIN_SHOW'; \
+              print -r -- 'ORIGIN LABEL: $SSH_ORIGIN_LABEL'"
 
 # macOS Specific additions
 if [[ $OSTYPE == darwin* ]]; then
