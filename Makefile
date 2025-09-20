@@ -14,7 +14,7 @@ debug:
 install: cleanup install-app-files install-shell-files install-config-files install-util-files ## Installs shells, addons, bin fonts git gpg pictures
 
 .PHONY: install-shell-files
-install-shell-files: bash zsh zsh-addons alias_path
+install-shell-files: bash zsh zsh-addons defaults
 
 .PHONY: install-app-files
 install-app-files: bin usr python
@@ -29,7 +29,7 @@ install-util-files: fonts pictures
 remove: cleanup remove-shell-files remove-app-files remove-config-files remove-util-files ## Remove the dotfile configs; **WARNING: files will be deleted :WARNING**
 
 .PHONY: remove-shell-files
-remove-shell-files: bash-remove zsh-remove zsh-addons-remove alias_path-remove
+remove-shell-files: bash-remove zsh-remove zsh-addons-remove defaults-remove
 
 .PHONY: remove-app-files
 remove-app-files: bin-remove usr-remove python-remove
@@ -94,10 +94,12 @@ cleanup: ## Remove legacy files not used by current configuration
 		rm "${HOME}/.gitconfig-professional"; \
 	fi;
 
-.PHONY: alias_path
-alias_path:
-	ln -snf "${CURDIR}/.alias" "${HOME}/.alias";
-	ln -snf "${CURDIR}/.path" "${HOME}/.path";
+.PHONY: defaults
+defaults:
+	ln -snf "${CURDIR}/cross-shell/.alias" "${HOME}/.alias";
+	ln -snf "${CURDIR}/cross-shell/.exports" "${HOME}/.exports";
+	ln -snf "${CURDIR}/cross-shell/.functions" "${HOME}/.functions";
+	ln -snf "${CURDIR}/cross-shell/.path" "${HOME}/.path";
 
 	if [ -f "${CURDIR}/macos/.macos_alias" ]; then \
 		ln -snf "${CURDIR}/macos/.macos_alias" "${HOME}/.macos_alias"; \
@@ -109,10 +111,16 @@ alias_path:
 		ln -snf "${CURDIR}/macos/.macos_exports" "${HOME}/.macos_exports"; \
 	fi;
 
-.PHONY: alias_path-remove
-alias_path-remove:
+.PHONY: defaults-remove
+defaults-remove:
 	if [ -L "${HOME}/.alias" ]; then \
 		rm "${HOME}/.alias"; \
+	fi;
+	if [ -L "${HOME}/.exports" ]; then \
+		rm "${HOME}/.exports"; \
+	fi;
+	if [ -L "${HOME}/.functions" ]; then \
+		rm "${HOME}/.functions"; \
 	fi;
 	if [ -L "${HOME}/.path" ]; then \
 		rm "${HOME}/.path"; \

@@ -6,6 +6,4 @@ alias ec="$EDITOR $HOME/.zshrc"
 # source ~/.zshrc
 alias sc="source $HOME/.zshrc"
 
-alias ssh_connection_chain="print -r -- 'CONNECTION CHAIN: $SSH_CONNECTION_CHAIN'; \
-              print -r -- 'CONNECTION CHAIN (Show): $SSH_CONNECTION_CHAIN_SHOW'; \
-              print -r -- 'ORIGIN LABEL: $SSH_ORIGIN_LABEL'"
+alias reloadshell="source $HOME/.zshrc && source $HOME/.zprofile"

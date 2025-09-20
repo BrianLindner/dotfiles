@@ -5,3 +5,5 @@ alias ec="$EDITOR $HOME/.bashrc"
 
 # source ~/.bashrc
 alias sc="source $HOME/.bashrc"
+
+alias reloadshell="source $HOME/.bashrc && source $HOME/.bash_profile"

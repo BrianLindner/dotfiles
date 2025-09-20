@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 # do this before the rests to align the paths and general
-for file in ~/.{alias,zsh_functions,zsh_alias,zsh_exports,zsh_exports_local,docker_alias,docker_functions,path}; do
+for file in ~/.{functions,alias,path,exports,zsh_functions,zsh_alias,zsh_exports,docker_functions,docker_alias}; do
 	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
 		# shellcheck source=/dev/null
 		source "$file"
