@@ -1754,7 +1754,7 @@ typeset -g POWERLEVEL9K_CONFIG_FILE=${${(%):-%x}:a}
 
 # Custom segment to show if a reboot is required
 function prompt_reboot() {
-  if check_reboot; then
+  if checkreboot; then
     p10k segment -t "REBOOT" -f 160 -b 238
   fi
 }
