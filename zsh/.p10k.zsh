@@ -36,11 +36,12 @@
     context
     dir                     # current directory
     vcs                     # git status
-    connection_path
+    connection_path         # ssh connection path
+
     # =========================[ Line #2 ]=========================
     newline                 # \n
     # virtualenv
-    prompt_char           # prompt symbol
+    prompt_char             # prompt symbol
 
   )
 
@@ -51,6 +52,7 @@
   # last prompt line gets hidden if it would overlap with left prompt.
   typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
     # =========================[ Line #1 ]=========================
+    reboot                  # reboot required
     status                  # exit code of the last command
     command_execution_time  # duration of the last command
     background_jobs         # presence of background jobs
@@ -1749,6 +1751,13 @@ typeset -g POWERLEVEL9K_CONFIG_FILE=${${(%):-%x}:a}
 
 (( ${#p10k_config_opts} )) && setopt ${p10k_config_opts[@]}
 'builtin' 'unset' 'p10k_config_opts'
+
+# Custom segment to show if a reboot is required
+function prompt_reboot() {
+  if check_reboot; then
+    p10k segment -t "REBOOT" -f 160 -b 238
+  fi
+}
 
 # Custom segment to show SSH connection path
 function prompt_connection_path() {
