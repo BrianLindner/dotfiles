@@ -59,7 +59,7 @@ alias week='date +%V' # Get week number
 alias checkupdate='sudo apt update && sudo apt -s upgrade | grep -i "upgraded,"'
 
 # alias checkreboot='if [ -f /var/run/reboot-required ]; then echo "Reboot required"; else echo "No reboot required"; fi'
-alias checkreboot='check_reboot --print'
+# alias checkreboot='check_reboot --print'
 
 # Tmux
 alias tn="tmux new -s $(pwd | sed 's/.*\///g')"

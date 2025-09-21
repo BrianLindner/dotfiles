@@ -31,7 +31,7 @@ function bgnotify_formatted {
 }
 
 
-# REBOT CHECKER
+# REBOOT CHECKER
 # ===================== checkreboot (multi-distro + cache) =====================
 # Controls (tweak via environment):
 : "${CHECKREBOOT_CACHE_TTL:=20}"   # seconds to cache; 0 = disable caching
@@ -98,7 +98,7 @@ _checkreboot_probe() {
 }
 
 # --- Public function: exit 0 if reboot needed, 1 otherwise; --print prints msg ---
-check_reboot() {
+checkreboot() {
   # Per-host (and optional key) cache
   local host key cache_file tmp_file now ttl
   host="$(hostname -f 2>/dev/null || hostname)"
