@@ -121,6 +121,9 @@ checkreboot() {
 
   # Try cache unless forced refresh
   if [ -z "$CHECKREBOOT_FORCE_REFRESH" ] || { [ "$CHECKREBOOT_FORCE_REFRESH" != "1" ] && [ "$CHECKREBOOT_FORCE_REFRESH" != "yes" ]; }; then
+    if [ "${CHECKREBOOT_DEBUG:-}" = "1" ]; then
+      printf 'checkreboot[dbg] cache_file=%q ttl=%s\n' "$cache_file" "$ttl" >&2
+    fi
     if [ "$ttl" -gt 0 ] && [ -r "$cache_file" ]; then
       # shellcheck disable=SC1090
       . "$cache_file" 2>/dev/null || true
