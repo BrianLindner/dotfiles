@@ -83,23 +83,23 @@ _checkreboot_probe() {
   fi
 
   # 4) Kernel mismatch: newer kernel installed than running
-  if [ -d /lib/modules ]; then
+    # 4) Kernel mismatch: newer kernel installed than running (robust, container-aware)
+  if command -v systemd-detect-virt >/dev/null 2>&1 && systemd-detect-virt -cq; then
+    [ "${CHECKREBOOT_DEBUG:-}" = "1" ] && printf 'checkreboot[dbg] container detected; skip kernel check\n' >&2
+  elif [ -d /lib/modules ]; then
     local running latest top
-    # Trim any stray whitespace/newlines
     running="$(uname -r 2>/dev/null | tr -d '\r\n')"
-    # Sort versions and pick the highest module dir
-    latest="$(ls -1 /lib/modules 2>/dev/null | sed 's/[[:space:]]*$//' | sort -V | tail -n1)"
-
-    # Only signal reboot if latest > running (strictly newer), not just !=
-    # Version-safe compare using sort -V:
-    top="$(printf '%s\n%s\n' "$running" "$latest" | sort -V | tail -n1)"
-
+    latest="$(
+      command ls -1 --color=never /lib/modules 2>/dev/null \
+      | sed 's/[[:space:]]*$//' \
+      | LC_ALL=C sort -V \
+      | tail -n1
+    )"
+    top="$(printf '%s\n%s\n' "$running" "$latest" | LC_ALL=C sort -V | tail -n1)"
     if [ -n "$running" ] && [ -n "$latest" ] && [ "$top" = "$latest" ] && [ "$running" != "$latest" ]; then
       CHECKREBOOT_MSG="Reboot required (running kernel $running, latest installed $latest)"
       return 0
     fi
-
-    # Optional debug: show what we compared
     if [ "${CHECKREBOOT_DEBUG:-}" = "1" ]; then
       printf 'checkreboot[dbg] running=%q latest=%q top=%q\n' "$running" "$latest" "$top" >&2
     fi
