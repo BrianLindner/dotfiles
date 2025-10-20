@@ -190,9 +190,10 @@ alias iptlistout='sudo /sbin/iptables -L OUTPUT -n -v --line-numbers' # display 
 alias journalclean='sudo journalctl --rotate'
 alias journalprune='sudo journalctl --vacuum-time=3d'
 
-alias ssh_chain="print -r -- 'CONNECTION CHAIN: $SSH_CONNECTION_CHAIN'; \
+alias sshchain="print -r -- 'CONNECTION CHAIN: $SSH_CONNECTION_CHAIN'; \
               print -r -- 'CONNECTION CHAIN (Show): $SSH_CONNECTION_CHAIN_SHOW'; \
-              print -r -- 'ORIGIN LABEL: $SSH_ORIGIN_LABEL'"
+              print -r -- 'ORIGIN LABEL: $SSH_ORIGIN_LABEL'; \
+              print -r -- 'SESSION LOADED: $SSH_SESSION_LOADED'"
 
 # macOS Specific additions
 if [[ $OSTYPE == darwin* ]]; then

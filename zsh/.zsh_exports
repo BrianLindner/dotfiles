@@ -29,12 +29,15 @@ else
   export EDITOR='nano'
 fi
 
-
 # Build/extend the SSH connection chain on interactive SSH sessions
 if [[ -n "$SSH_CONNECTION" ]]; then
+  # Not first hop: append this host
   if [[ -n "$SSH_CONNECTION_CHAIN" ]]; then
-    # Not first hop: append this host
-    export SSH_CONNECTION_CHAIN="${SSH_CONNECTION_CHAIN}→$(hostname -s)"
+    # If this is a re-loaded session (e.g., tmux attach), don't append again.
+    if [[ -z "$SSH_SESSION_LOADED" ]]; then
+      export SSH_CONNECTION_CHAIN="${SSH_CONNECTION_CHAIN}→$(hostname -s)"
+    fi
+
   else
     # First hop on this chain: seed from a friendly origin label if provided,
     # else attempt reverse-lookup of client IP, else use the raw IP.
@@ -48,6 +51,7 @@ if [[ -n "$SSH_CONNECTION" ]]; then
       [[ -z "$origin" ]] && origin="$client_ip"
     fi
 
+    export SSH_SESSION_LOADED=1
     export SSH_CONNECTION_CHAIN="${origin}→$(hostname -s)"
   fi
 
